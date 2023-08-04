@@ -1,0 +1,38 @@
+.mp-0 {
+    margin: 0;
+    padding: 0;  
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;    
+    margin: 40px 40px 0 40px;
+    min-height: 88px;
+    background-color: rgba(28, 28, 33, 1);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 24px 32px 0px rgba(0, 0, 0, 0.04);
+}
+
+.navList {
+    composes: mp-0;
+    display: flex;
+    list-style-type: none;
+}
+
+.navItem {    
+    composes: mp-0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: 178px;
+    margin-right: 8px;
+}
+
+
+.navLogp {
+    margin: 8px 288px 0 112px;
+}
