@@ -1,0 +1,52 @@
+.mp-0 {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 40px 0 40px;
+    min-height: 88px;
+    background-color: rgba(28, 28, 33, 1);
+
+}
+
+.nav {
+    composes: mp-0;
+    display: flex;
+    list-style-type: none;
+}
+
+.nav_item {
+    composes: mp-0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: 178px;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: all .3s ease-in;
+}
+
+.nav_item:hover {
+    opacity: .6;
+}
+
+.nav_item_constructor {
+    composes: nav_item;
+}
+
+.nav_item_order_feed {
+    composes: nav_item;
+}
+
+.nav_item_lk {
+    composes: nav_item;
+}
+
+.logo {
+    margin: 8px 288px 0 112px;
+}

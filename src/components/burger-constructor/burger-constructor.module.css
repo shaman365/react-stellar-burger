@@ -1,0 +1,35 @@
+.section {
+    margin: 100px 0 0 40px;
+    max-width: 600px;
+}
+
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    max-height: 464px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.price {
+    display: flex;
+    gap: 8px;
+}
