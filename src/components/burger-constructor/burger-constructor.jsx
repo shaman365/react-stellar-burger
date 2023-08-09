@@ -1,13 +1,14 @@
-import React from 'react';
+import { useMemo } from 'react'
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { ingredientPropType } from '../../utils/prop-types';
+import { ingredientsPropType } from '../../utils/prop-types';
+import PropTypes from "prop-types";
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = ({ data, onOpenModal }) => {
 
-    const ingredientList = React.useMemo(() => data.filter(item => item.type == "sauce" || item.type == "main"), [data]);
-    const bunList = React.useMemo(() => data.filter(item => item.type == "bun"), [data]);
-    const price = React.useMemo(() => ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bunList.reduce((sum, item) => { return sum + item.price }, 0), [data]);
+    const ingredientList = useMemo(() => data.filter(item => item.type == "sauce" || item.type == "main"), [data]);
+    const bunList = useMemo(() => data.filter(item => item.type == "bun"), [data]);
+    const price = useMemo(() => ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bunList.reduce((sum, item) => { return sum + item.price }, 0), [data]);
 
     return (
         <section className={styles.section}>
@@ -56,7 +57,7 @@ const BurgerConstructor = ({ data }) => {
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button htmlType="button" type="primary" size="large" onClick={() => {onOpenModal('order')}}>
                     Оформить заказ
                 </Button>
             </div>
@@ -65,7 +66,8 @@ const BurgerConstructor = ({ data }) => {
 }
 
 BurgerConstructor.propTypes = {
-    data: ingredientPropType
-};
+    data: ingredientsPropType,
+    onOpenModal: PropTypes.func.isRequired
+  }; 
 
 export default BurgerConstructor;
