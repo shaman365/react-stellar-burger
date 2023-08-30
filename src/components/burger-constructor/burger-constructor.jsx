@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 
 const BurgerConstructor = ({ data, onOpenModal }) => {
 
-    const ingredientList = useMemo(() => data.filter(item => item.type == "sauce" || item.type == "main"), [data]);
-    const bunList = useMemo(() => data.filter(item => item.type == "bun"), [data]);
-    const price = useMemo(() => ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bunList.reduce((sum, item) => { return sum + item.price }, 0), [data]);
+    const ingredientList = useMemo(() => data.filter(item => item.type === "sauce" || item.type === "main"), [data]);
+    const bunList = useMemo(() => data.filter(item => item.type === "bun"), [data]);
+    const price = useMemo(() => ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bunList.reduce((sum, item) => { return sum + item.price }, 0), [bunList, ingredientList]);
 
     return (
         <section className={styles.section}>
@@ -16,7 +16,7 @@ const BurgerConstructor = ({ data, onOpenModal }) => {
                 bunList.length > 0 && (
                     <ConstructorElement
                         type="top"
-                        text={bunList[0].name + ' ' + '(верх)'}
+                        text={bunList[0].name + ' (верх)'}
                         price={bunList[0].price}
                         thumbnail={bunList[0].image}
                         isLocked='true'
@@ -42,7 +42,7 @@ const BurgerConstructor = ({ data, onOpenModal }) => {
                 bunList.length > 0 && (
                     <ConstructorElement
                         type="bottom"
-                        text={bunList[1].name + ' ' + '(низ)'}
+                        text={bunList[1].name + ' (низ)'}
                         price={bunList[1].price}
                         thumbnail={bunList[1].image}
                         isLocked='true'
