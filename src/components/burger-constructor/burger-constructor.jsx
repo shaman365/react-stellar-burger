@@ -1,22 +1,24 @@
+import { useMemo } from 'react'
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { ingredientPropType } from '../../utils/prop-types';
+import { ingredientsPropType } from '../../utils/prop-types';
+import PropTypes from "prop-types";
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = ({ data, onOpenModal }) => {
 
-    const ingredientList = data.filter(item => item.type == "sauce" || item.type == "main");
-    const bun = data.filter(item => item.type == "bun");
-    const price = ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bun.reduce((sum, item) => { return sum + item.price }, 0);
+    const ingredientList = useMemo(() => data.filter(item => item.type == "sauce" || item.type == "main"), [data]);
+    const bunList = useMemo(() => data.filter(item => item.type == "bun"), [data]);
+    const price = useMemo(() => ingredientList.reduce((sum, item) => { return sum + item.price }, 0) + bunList.reduce((sum, item) => { return sum + item.price }, 0), [data]);
 
     return (
         <section className={styles.section}>
             {
-                bun.length != 0 && (
+                bunList.length > 0 && (
                     <ConstructorElement
                         type="top"
-                        text={bun[0].name + ' ' + '(верх)'}
-                        price={bun[0].price}
-                        thumbnail={bun[0].image}
+                        text={bunList[0].name + ' ' + '(верх)'}
+                        price={bunList[0].price}
+                        thumbnail={bunList[0].image}
                         isLocked='true'
                         extraClass='ml-8 mr-2'
                     />
@@ -37,12 +39,12 @@ const BurgerConstructor = ({ data }) => {
                 }
             </ul>
             {
-                bun.length != 0 && (
+                bunList.length > 0 && (
                     <ConstructorElement
                         type="bottom"
-                        text={bun[1].name + ' ' + '(низ)'}
-                        price={bun[1].price}
-                        thumbnail={bun[1].image}
+                        text={bunList[1].name + ' ' + '(низ)'}
+                        price={bunList[1].price}
+                        thumbnail={bunList[1].image}
                         isLocked='true'
                         extraClass='ml-8 mr-2'
                     />
@@ -55,7 +57,7 @@ const BurgerConstructor = ({ data }) => {
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button htmlType="button" type="primary" size="large" onClick={() => {onOpenModal('order')}}>
                     Оформить заказ
                 </Button>
             </div>
@@ -64,7 +66,8 @@ const BurgerConstructor = ({ data }) => {
 }
 
 BurgerConstructor.propTypes = {
-    data: ingredientPropType
-};
+    data: ingredientsPropType,
+    onOpenModal: PropTypes.func.isRequired
+  }; 
 
 export default BurgerConstructor;
