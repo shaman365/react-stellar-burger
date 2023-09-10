@@ -1,7 +1,7 @@
 const config = {
     baseUrl: 'https://norma.nomoreparties.space/api/',
     ingredientsPath: 'ingredients',
-    orderPath: 'order',
+    orderPath: 'orders',
     headers: {
       'Content-Type': 'application/json'
     }
@@ -31,13 +31,12 @@ const config = {
       return fetch(`${this.orderPath}`, {
         method: 'POST',
         body: JSON.stringify({
-          ingredients: `${ingredients}`,
+          ingredients: ingredients,
         }),
         headers: this.headers
       })
         .then(res => this._getResponseData(res));
-    }
-      
+    }      
   }
   
   const api = new Api(config);
