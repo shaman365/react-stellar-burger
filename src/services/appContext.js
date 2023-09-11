@@ -82,6 +82,11 @@ const burgerDataReducer = (burgerData, action) => {
                 ingredients: burgerData.ingredients.filter(item => item._id !== action.id),
             }
         }
+        case 'clearIngredients': {
+            return {
+                ingredients: []
+            }
+        }
         default: {
             throw Error('Unknown action: ' + action.type);
         }
