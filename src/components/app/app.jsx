@@ -7,6 +7,8 @@ import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import api from '../../utils/api'
+import { BurgerConstructorProvider } from '../../services/appContext';
+
 
 function App() {
 
@@ -15,7 +17,7 @@ function App() {
 
   useEffect(() => {
     api.getIngredients()
-    .then(resultData => setData({...data, ingredients: [...resultData.data]}))
+    .then(resultData => {setData({...data, ingredients: [...resultData.data]})})
     .catch(error => setData({...data, hasError: true, errorMessage: error}));
   }, []
   )
@@ -34,16 +36,16 @@ function App() {
       active: false
     });
   }
-  
+
   return (
-    <>
-      <AppHeader />
+    <BurgerConstructorProvider>
+      <AppHeader />      
       <main className={styles.main}>
         {
           !data.hasError && (
             <>
               <BurgerIngredients data={data.ingredients} onOpenModal={handleOpenModal}/>
-              <BurgerConstructor data={data.ingredients} onOpenModal={handleOpenModal}/>
+              <BurgerConstructor onOpenModal={handleOpenModal}/>
             </>
           )
         }
@@ -71,7 +73,7 @@ function App() {
           )
         }
       </div>
-      </>
+      </BurgerConstructorProvider>
   );
 }
 

@@ -19,7 +19,7 @@ const Modal = ({children, onCloseModal}) => {
   }
 
   function handleEscClose(e) {
-    if (e.key == "Escape") {
+    if (e.key === "Escape") {
       onCloseModal();
     }
   }
