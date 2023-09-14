@@ -3,8 +3,6 @@ import { ingredientPropType } from '../../utils/prop-types';
 
 const IngredientDetails = ({ ingredient }) => {
 
-  console.log('IngredientDetails. ingredient: ', ingredient);
-
   return (
     <div className={styles.container}>
       <p className={`${styles.title} text text_type_main-large mt-10 ml-10`}>

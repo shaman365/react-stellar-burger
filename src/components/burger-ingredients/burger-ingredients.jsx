@@ -13,9 +13,9 @@ const BurgerIngredients = () => {
   const bunRef = useRef();
   const sauceRef = useRef();
   const mainRef = useRef();
+  const ingredientsContainer = useRef();
 
   const data = useSelector((state) => state.ingredientsData.ingredients);
-  console.log('data', data);
 
   const bunList = useMemo(
     () => data && data.filter((item) => item.type === "bun"),
@@ -30,6 +30,23 @@ const BurgerIngredients = () => {
     [data]
   );
 
+  const handleScroll = () => {
+    const containerScroll = ingredientsContainer.current.getBoundingClientRect().top
+    const bunScroll = bunRef.current.getBoundingClientRect().top - containerScroll
+    const sauceScroll = sauceRef.current.getBoundingClientRect().top - containerScroll
+    const mainScroll = mainRef.current.getBoundingClientRect().top - containerScroll
+    const maxOffset = -30
+    if (bunScroll <= 0 && bunScroll > maxOffset) {
+      setCurrent("bun");
+    }
+    else if (sauceScroll <= 0 && sauceScroll > maxOffset) {
+      setCurrent("sauce");
+    }
+    else if (mainScroll <= 0 && mainScroll > maxOffset) {
+      setCurrent("main");
+    }
+  }
+  
   return (
     <section className={styles.section}>
       <h1 className="text text_type_main-large">Соберите бургер</h1>
@@ -76,7 +93,7 @@ const BurgerIngredients = () => {
         </Tab>
       </nav>
 
-      <div className={`${styles.constructor} mt-10 custom-scroll`}>
+      <div className={`${styles.constructor} mt-10 custom-scroll`} ref={ingredientsContainer} onScroll={handleScroll}>
         <p className="text text_type_main-medium mb-6" ref={bunRef}>
           Булки
         </p>

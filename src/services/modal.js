@@ -9,8 +9,6 @@ export const modalSlice = createSlice({
     },
     reducers: {
         openModalIngredient: (state, action) => {
-            console.log('action.payload:', action.payload);
-
             return {
                 ...state,
                 active: true,
@@ -44,4 +42,4 @@ export const modalSlice = createSlice({
 
 export const { openModalIngredient, openModalOrder, closeModalIngredient, closeModal } = modalSlice.actions;
 
-export default modalSlice.reducer;  // export default
+export default modalSlice.reducer; 

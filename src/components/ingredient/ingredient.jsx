@@ -1,4 +1,3 @@
-import React from "react"
 import styles from './ingredient.module.css'
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useDispatch, useSelector } from "react-redux"
@@ -19,22 +18,17 @@ const getIngredientsCount = (ingredient, array) => {
 
 const Ingredient = ({ ingredientData }) => {
 
-    console.log('Ingredient ingredientData: ', ingredientData)
-
     const dispatch = useDispatch()
 
     const burgerData = useSelector(state => state.burgerData)
 
     let ingredientCount = 0
 
-    //todo: this
-
-    // if (ingredientData.type === 'bun') {
-    //     ingredientCount = getIngredientsCount(ingredientData, burgerData.bun)
-    // } else {
-    //     ingredientCount = getIngredientsCount(ingredientData, burgerData.ingredients)
-    // }
-
+    if (ingredientData.type === 'bun') {
+        ingredientCount = getIngredientsCount(ingredientData, burgerData.bun)
+    } else {
+        ingredientCount = getIngredientsCount(ingredientData, burgerData.ingredients)
+    }
 
     const [, drag] = useDrag(() => ({
         type: 'ingredient',
