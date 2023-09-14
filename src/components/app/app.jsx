@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients"
@@ -6,74 +6,75 @@ import BurgerConstructor from "../burger-constructor/burger-constructor"
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import api from '../../utils/api'
-import { BurgerConstructorProvider } from '../../services/appContext';
-
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { DndProvider } from "react-dnd"
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients, reducer } from '../../services/ingredients';
 
 function App() {
 
-  const [data, setData] = useState({ingredients: [], hasError: false, errorMessage: ''});
-  const [modalActive, setModalActive] = useState({active: false, type: '', ingredient: ''});
+  //const [data, setData] = useState({ ingredients: [], hasError: false, errorMessage: '' });
+  //const [modalActive, setModalActive] = useState({ active: false, type: '', ingredient: '' });
+
+  const dispatch = useDispatch();
+  const modalData = useSelector((state) => state.modalData)
+
+  console.log('modalData: ', modalData)
+
+  const { loading, error } = useSelector(state => state.ingredientsData);
 
   useEffect(() => {
-    api.getIngredients()
-    .then(resultData => {setData({...data, ingredients: [...resultData.data]})})
-    .catch(error => setData({...data, hasError: true, errorMessage: error}));
+    dispatch(loadIngredients())
   }, []
   )
 
-  function handleOpenModal(modalType, ingredient = {}) {
-    if (modalType === 'order')   {
-      setModalActive({...modalActive, active: true,type: 'order'})
-    } else if (modalType === 'ingredient') {
-      setModalActive({...modalActive, active: true, type: 'ingredient', ingredient: ingredient})
-    }
-  }
-
-  function handleCloseModal() {
-    setModalActive({
-      ...modalActive,
-      active: false
-    });
-  }
-
   return (
-    <BurgerConstructorProvider>
-      <AppHeader />      
+    //    <AppHeader />
+    <DndProvider backend={HTML5Backend}>
+      <AppHeader />
       <main className={styles.main}>
         {
-          !data.hasError && (
+          !error && (
             <>
-              <BurgerIngredients data={data.ingredients} onOpenModal={handleOpenModal}/>
-              <BurgerConstructor onOpenModal={handleOpenModal}/>
+              {/* <h2>la la la </h2> */}
+              <BurgerIngredients />
+              {/* <BurgerConstructor /> */}
+            }
             </>
           )
-        }
-        {
-          data.hasError && (
+        }                {
+          loading && (
             <p className="text text_type_main-large">
-              Ошибка, попробуйте позже ({data.errorMessage})
-          </p>   
+              Загрузка данных...
+            </p>
           )
-        }      
+        }
+
+        {
+          error && (
+            <p className="text text_type_main-large">
+              Ошибка, попробуйте позже ({error.message})
+            </p>
+          )
+        }
       </main>
       <div className={styles.modals_container}>
         {
-          modalActive.active && (
-          <Modal onCloseModal={handleCloseModal}>
-            {
-              modalActive.type === 'order' &&
-              <OrderDetails/>
-            }
-            {
-              modalActive.type === 'ingredient' &&
-              <IngredientDetails ingredient={modalActive.ingredient}/>
-            }          
-          </Modal>
+          modalData.active && (
+            <Modal>
+              {
+                modalData.type === 'order' &&
+                <OrderDetails />
+              }
+              {
+                modalData.type === 'ingredient' &&
+                <IngredientDetails ingredient={modalData.ingredient} />
+              }
+            </Modal>
           )
         }
       </div>
-      </BurgerConstructorProvider>
+    </DndProvider >
   );
 }
 
