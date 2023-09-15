@@ -13,16 +13,20 @@ const Modal = ({ children }) => {
   const modal = useRef();
   const dispatch = useDispatch();
 
-  function overlayClosePopup(e) {
+  const close = () => {
+    dispatch(closeModal());
+  }
+
+  const overlayClosePopup = (e) => {
     if (modal.current && !modal.current.contains(e.target)) {
-      dispatch(closeModal());
+      close();
     }
     return;
   }
 
-  function handleEscClose(e) {
+  const handleEscClose = (e) => {
     if (e.key === "Escape") {
-      dispatch(closeModal());
+      close()
     }
   }
 
@@ -41,7 +45,7 @@ const Modal = ({ children }) => {
         <ModalOverlay />
         <div className={styles.modal} ref={modal}>
           {children}
-          <button className={styles.button_close} onClick={() => dispatch(closeModal())}>
+          <button className={styles.button_close} onClick={() => close()}>
             <img src={close_image} alt="Закрыть модальное окно" />
           </button>
         </div>

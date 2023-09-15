@@ -1,4 +1,4 @@
-import { useMemo, useRef, useContext, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -46,7 +46,7 @@ const BurgerIngredients = () => {
       setCurrent("main");
     }
   }
-  
+
   return (
     <section className={styles.section}>
       <h1 className="text text_type_main-large">Соберите бургер</h1>

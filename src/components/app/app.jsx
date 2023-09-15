@@ -9,7 +9,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { loadIngredients, reducer } from "../../services/ingredients";
+import { loadIngredients } from "../../services/ingredients";
 
 function App() {
   const dispatch = useDispatch();
