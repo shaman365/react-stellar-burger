@@ -1,79 +1,56 @@
-import {useEffect, useState} from 'react'
+import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients"
-import BurgerConstructor from "../burger-constructor/burger-constructor"
-import Modal from '../modal/modal'
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import api from '../../utils/api'
-import { BurgerConstructorProvider } from '../../services/appContext';
-
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { loadIngredients } from "../../services/ingredients";
 
 function App() {
+  const dispatch = useDispatch();
+  const modalData = useSelector((state) => state.modalData);
 
-  const [data, setData] = useState({ingredients: [], hasError: false, errorMessage: ''});
-  const [modalActive, setModalActive] = useState({active: false, type: '', ingredient: ''});
+  const { loading, error } = useSelector((state) => state.ingredientsData);
 
   useEffect(() => {
-    api.getIngredients()
-    .then(resultData => {setData({...data, ingredients: [...resultData.data]})})
-    .catch(error => setData({...data, hasError: true, errorMessage: error}));
-  }, []
-  )
-
-  function handleOpenModal(modalType, ingredient = {}) {
-    if (modalType === 'order')   {
-      setModalActive({...modalActive, active: true,type: 'order'})
-    } else if (modalType === 'ingredient') {
-      setModalActive({...modalActive, active: true, type: 'ingredient', ingredient: ingredient})
-    }
-  }
-
-  function handleCloseModal() {
-    setModalActive({
-      ...modalActive,
-      active: false
-    });
-  }
+    dispatch(loadIngredients());
+  }, []);
 
   return (
-    <BurgerConstructorProvider>
-      <AppHeader />      
+    <DndProvider backend={HTML5Backend}>
+      <AppHeader />
       <main className={styles.main}>
-        {
-          !data.hasError && (
-            <>
-              <BurgerIngredients data={data.ingredients} onOpenModal={handleOpenModal}/>
-              <BurgerConstructor onOpenModal={handleOpenModal}/>
-            </>
-          )
-        }
-        {
-          data.hasError && (
-            <p className="text text_type_main-large">
-              Ошибка, попробуйте позже ({data.errorMessage})
-          </p>   
-          )
-        }      
+        {!error && (
+          <>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </>
+        )}
+        {loading && (
+          <p className="text text_type_main-large">Загрузка данных...</p>
+        )}
+        {error && (
+          <p className="text text_type_main-large">
+            Ошибка, попробуйте позже ({error.message})
+          </p>
+        )}
       </main>
       <div className={styles.modals_container}>
-        {
-          modalActive.active && (
-          <Modal onCloseModal={handleCloseModal}>
-            {
-              modalActive.type === 'order' &&
-              <OrderDetails/>
-            }
-            {
-              modalActive.type === 'ingredient' &&
-              <IngredientDetails ingredient={modalActive.ingredient}/>
-            }          
+        {modalData.active && (
+          <Modal>
+            {modalData.type === "order" && <OrderDetails />}
+            {modalData.type === "ingredient" && (
+              <IngredientDetails ingredient={modalData.ingredient} />
+            )}
           </Modal>
-          )
-        }
+        )}
       </div>
-      </BurgerConstructorProvider>
+    </DndProvider>
   );
 }
 

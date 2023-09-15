@@ -1,13 +1,14 @@
 import styles from './ingredient-details.module.css'
 import { ingredientPropType } from '../../utils/prop-types';
 
-const IngredientDetails = ({ingredient}) => {
+const IngredientDetails = ({ ingredient }) => {
+
   return (
     <div className={styles.container}>
       <p className={`${styles.title} text text_type_main-large mt-10 ml-10`}>
         Детали ингредиента
       </p>
-      <img src={ingredient.image_large} alt="Изображение ингредиента"/>
+      <img src={ingredient.image_large} alt="Изображение ингредиента" />
       <p className="text text_type_main-medium mt-4">
         {ingredient.name}
       </p>
@@ -51,6 +52,6 @@ const IngredientDetails = ({ingredient}) => {
 
 IngredientDetails.propTypes = {
   ingredient: ingredientPropType,
-}; 
+};
 
 export default IngredientDetails

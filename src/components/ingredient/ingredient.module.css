@@ -1,0 +1,30 @@
+.ingredient {
+    width: 272px;
+    height: 208px;
+    position: relative;
+}
+
+.counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.price {
+    display: flex;
+    gap: 8px;
+}
+
+.button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: opacity .3s;
+}
+
+.button:hover {
+    opacity: .6;
+}

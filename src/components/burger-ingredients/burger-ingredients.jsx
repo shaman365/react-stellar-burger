@@ -1,35 +1,51 @@
-import { useMemo, useState, useRef, useContext } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
-  Tab,
-  CurrencyIcon,
+  Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { ingredientsPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
-import { BurgerDispatchContext } from '../../services/appContext'
+import { useSelector } from "react-redux";
+import Ingredient from '../ingredient/ingredient';
 
 
-const BurgerIngredients = ({ data, onOpenModal }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
-
-  const burgerDataDispatch = useContext(BurgerDispatchContext);
 
   const bunRef = useRef();
   const sauceRef = useRef();
   const mainRef = useRef();
+  const ingredientsContainer = useRef();
+
+  const data = useSelector((state) => state.ingredientsData.ingredients);
 
   const bunList = useMemo(
-    () => data.filter((item) => item.type === "bun"),
+    () => data && data.filter((item) => item.type === "bun"),
     [data]
   );
   const mainList = useMemo(
-    () => data.filter((item) => item.type === "main"),
+    () => data && data.filter((item) => item.type === "main"),
     [data]
   );
   const sauceList = useMemo(
-    () => data.filter((item) => item.type === "sauce"),
+    () => data && data.filter((item) => item.type === "sauce"),
     [data]
   );
+
+  const handleScroll = () => {
+    const containerScroll = ingredientsContainer.current.getBoundingClientRect().top
+    const bunScroll = bunRef.current.getBoundingClientRect().top - containerScroll
+    const sauceScroll = sauceRef.current.getBoundingClientRect().top - containerScroll
+    const mainScroll = mainRef.current.getBoundingClientRect().top - containerScroll
+    const maxOffset = -30
+    if (bunScroll <= 0 && bunScroll > maxOffset) {
+      setCurrent("bun");
+    }
+    else if (sauceScroll <= 0 && sauceScroll > maxOffset) {
+      setCurrent("sauce");
+    }
+    else if (mainScroll <= 0 && mainScroll > maxOffset) {
+      setCurrent("main");
+    }
+  }
 
   return (
     <section className={styles.section}>
@@ -77,90 +93,34 @@ const BurgerIngredients = ({ data, onOpenModal }) => {
         </Tab>
       </nav>
 
-      <div className={`${styles.constructor} mt-10 custom-scroll`}>
+      <div className={`${styles.constructor} mt-10 custom-scroll`} ref={ingredientsContainer} onScroll={handleScroll}>
         <p className="text text_type_main-medium mb-6" ref={bunRef}>
           Булки
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
-          {bunList.map((item) => (
-            <li className={styles.ingredient} key={item._id}>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  burgerDataDispatch({
-                    type: "addBun",
-                    payload: item,
-                  });
-                }}
-              >
-                <img className="ml-4 mr-4" src={item.image} alt={item.name} />
-                <div className={`${styles.price} mt-1 mb-1}`}>
-                  <p className="text text_type_digits-default">{item.price}</p>
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className="text text_type_main-default">{item.name}</p>
-              </button>
-            </li>
-          ))}
+          {
+            bunList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+          }
         </ul>
         <p className="text text_type_main-medium mb-6" ref={sauceRef}>
           Соусы
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
-          {sauceList.map((item) => (
-            <li className={styles.ingredient} key={item._id}>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  burgerDataDispatch({
-                    type: "addIngredient",
-                    payload: item,
-                  });
-                }}
-              >
-                <img className="ml-4 mr-4" src={item.image} alt={item.name} />
-                <div className={`${styles.price} mt-1 mb-1}`}>
-                  <p className="text text_type_digits-default">{item.price}</p>
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className="text text_type_main-default">{item.name}</p>
-              </button>
-            </li>
-          ))}
+          {
+            sauceList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+          }
         </ul>
         <p className="text text_type_main-medium mb-6" ref={mainRef}>
           Начинка
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
-          {mainList.map((item) => (
-            <li className={styles.ingredient} key={item._id}>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  burgerDataDispatch({
-                    type: "addIngredient",
-                    payload: item,
-                  });
-                }}
-              >
-                <img className="ml-4 mr-4" src={item.image} alt={item.name} />
-                <div className={`${styles.price} mt-1 mb-1}`}>
-                  <p className="text text_type_digits-default">{item.price}</p>
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className="text text_type_main-default">{item.name}</p>
-              </button>
-            </li>
-          ))}
+          {
+            mainList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+          }
         </ul>
       </div>
-    </section>
+    </section >
   );
-};
-
-BurgerIngredients.propTypes = {
-  data: ingredientsPropType,
-  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
