@@ -1,18 +1,8 @@
-.app {
+/* .app {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   height: 100vh;
   background-color: #131316;
   color: #f2f2f3;
-}
-
-.main {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-}
-
-.modals_container {
-  overflow: hidden;
-}
+} */

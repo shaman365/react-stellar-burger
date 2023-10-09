@@ -1,5 +1,4 @@
-.section {
-    --border: 1px solid yellow;
+.section {    
     margin: 40px 0 40px 50px;
     max-width: 600px;
 }

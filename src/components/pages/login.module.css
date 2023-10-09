@@ -1,0 +1,30 @@
+.flex-col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    margin-top: 288px;
+    composes: flex-col-center;
+    gap: 24px;
+}
+
+.additionalActions {
+    composes: flex-col-center;
+    gap: 16px;
+    margin-top: 80px;
+}
+
+.link {
+    color: rgba(76, 76, 255, 1);
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .3s ease-in;
+}
+
+.link:hover {
+    opacity: .6;
+}
