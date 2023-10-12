@@ -1,22 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState } from "react";
 // import { Navigate } from 'react-router-dom';
 
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
-
-// import { useAuth } from '../services/auth';
-// import { Button } from '../components/button';
-// import { Input } from '../components/input';
-// import { PasswordInput } from '../components/password-input';
-
 import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
-  PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   //   let auth = useAuth();
 
   //   const [form, setValue] = useState({ email: '', password: '' });
@@ -41,16 +34,17 @@ export default function LoginPage() {
   //     );
 
   const [value, setValue] = React.useState();
+  
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
   return (
-    <div>
+    <div className="section">
       <AppHeader />
 
       <div className={styles.login}>
-        <h2 className="text text_type_main-medium">Вход</h2>
+        <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <EmailInput
           onChange={onChange}
           value={value}
@@ -58,22 +52,15 @@ export default function LoginPage() {
           placeholder="Логин"
           isIcon={true}
         />
-        <PasswordInput name={"password"} extraClass="mt-24" />
         <Button htmlType="button" type="primary" size="large">
-          Войти
+          Восстановить
         </Button>
       </div>
       <div className={styles.additionalActions}>
         <h3 className="text text_type_main-small">
-          Вы — новый пользователь?{" "}
-          <Link className={styles.link} to="/register">
-            Зарегистрироваться
-          </Link>
-        </h3>
-        <h3 className="text text_type_main-small">
-          Забыли пароль?
-          <Link className={styles.link} to="/forgot-password">
-            Восстановить пароль
+          Вспомнили пароль?
+          <Link className={styles.link} to="/login">
+            Войти
           </Link>
         </h3>
       </div>

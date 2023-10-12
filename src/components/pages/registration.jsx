@@ -1,22 +1,17 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState } from "react";
 // import { Navigate } from 'react-router-dom';
 
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
-
-// import { useAuth } from '../services/auth';
-// import { Button } from '../components/button';
-// import { Input } from '../components/input';
-// import { PasswordInput } from '../components/password-input';
-
 import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
   PasswordInput,
   Button,
+  Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function LoginPage() {
+export default function RegistrationPage() {
   //   let auth = useAuth();
 
   //   const [form, setValue] = useState({ email: '', password: '' });
@@ -40,7 +35,7 @@ export default function LoginPage() {
   //       />
   //     );
 
-  const [value, setValue] = React.useState();
+  const [value, setValue] = useState();
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -50,7 +45,17 @@ export default function LoginPage() {
       <AppHeader />
 
       <div className={styles.login}>
-        <h2 className="text text_type_main-medium">Вход</h2>
+        <h2 className="text text_type_main-medium">Регистрация</h2>
+        <Input
+          type={"text"}
+          placeholder={"Имя"}
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          name={"name"}
+          error={false}
+          errorText={"Ошибка"}
+          size={"default"}
+        />
         <EmailInput
           onChange={onChange}
           value={value}
@@ -60,22 +65,16 @@ export default function LoginPage() {
         />
         <PasswordInput name={"password"} extraClass="mt-24" />
         <Button htmlType="button" type="primary" size="large">
-          Войти
+          Зарегистрироваться
         </Button>
       </div>
       <div className={styles.additionalActions}>
         <h3 className="text text_type_main-small">
-          Вы — новый пользователь?{" "}
-          <Link className={styles.link} to="/register">
-            Зарегистрироваться
+          Уже зарегистрированы?
+          <Link className={styles.link} to="/login">
+            Войти
           </Link>
-        </h3>
-        <h3 className="text text_type_main-small">
-          Забыли пароль?
-          <Link className={styles.link} to="/forgot-password">
-            Восстановить пароль
-          </Link>
-        </h3>
+        </h3>        
       </div>
     </div>
   );

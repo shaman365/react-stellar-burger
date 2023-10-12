@@ -50,3 +50,11 @@
 .logo {
     margin: 8px 288px 0 112px;
 }
+
+.link {
+    color: rgba(76, 76, 255, 1);
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .3s ease-in;
+}

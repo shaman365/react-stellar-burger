@@ -11,12 +11,12 @@ import { Link } from "react-router-dom";
 
 import AppHeader from "../app-header/app-header";
 import {
-  EmailInput,
+  Input,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   //   let auth = useAuth();
 
   //   const [form, setValue] = useState({ email: '', password: '' });
@@ -50,32 +50,29 @@ export default function LoginPage() {
       <AppHeader />
 
       <div className={styles.login}>
-        <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput
-          onChange={onChange}
-          value={value}
-          name={"email"}
-          placeholder="Логин"
-          isIcon={true}
-        />
+        <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <PasswordInput name={"password"} extraClass="mt-24" />
+        <Input
+          type={"text"}
+          placeholder={"Введите код из письма"}
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          name={"name"}
+          error={false}
+          errorText={"Ошибка"}
+          size={"default"}
+        />
         <Button htmlType="button" type="primary" size="large">
-          Войти
+          Сохранить
         </Button>
       </div>
       <div className={styles.additionalActions}>
         <h3 className="text text_type_main-small">
-          Вы — новый пользователь?{" "}
+          Вспомнили пароль?
           <Link className={styles.link} to="/register">
-            Зарегистрироваться
+            Войти
           </Link>
-        </h3>
-        <h3 className="text text_type_main-small">
-          Забыли пароль?
-          <Link className={styles.link} to="/forgot-password">
-            Восстановить пароль
-          </Link>
-        </h3>
+        </h3>       
       </div>
     </div>
   );

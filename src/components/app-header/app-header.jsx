@@ -1,5 +1,6 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
+import { Link } from "react-router-dom";
 
 const AppHeader = () => {
     return (
@@ -18,8 +19,8 @@ const AppHeader = () => {
                         <Logo />
                     </li>
                     <li className={styles.nav_item_lk}>
-                        <ProfileIcon type="secondary" />
-                        <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
+                        <ProfileIcon type="secondary" />                        
+                        <Link className={styles.link} to="/profile"><span className="text text_type_main-default text_color_inactive">Личный кабинет</span></Link>
                     </li>
                 </ul>
             </nav>

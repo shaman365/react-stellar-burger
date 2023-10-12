@@ -1,0 +1,61 @@
+.section {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.profileMenu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  /* border: 1px yellow solid; */
+  min-width: 320px;
+  position: absolute;
+  top: 0px;
+  right: 530px;
+}
+
+.profileActionsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    min-height: 320px;
+    max-width: 480px;
+    /* border: 1px red solid; */
+    margin-top: 120px;
+    position: relative;
+}
+
+.profileActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.profileNotion {
+    max-width: 320px;
+    padding-top: 80px;
+}
+
+.menuItem {
+  min-height: 64px;
+}
+
+.menuItemProfile {
+  composes: menuItem;
+}
+
+.menuItemHistory {
+  composes: menuItem;
+}
+
+.menuItemExit {
+  composes: menuItem;
+}
