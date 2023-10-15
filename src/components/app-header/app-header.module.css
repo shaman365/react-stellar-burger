@@ -52,8 +52,8 @@
 }
 
 .link {
-    color: rgba(76, 76, 255, 1);
-    margin-left: 10px;
+    color: rgb(255, 255, 255);
+    /* margin-left: 10px; */
     cursor: pointer;
     text-decoration: none;
     transition: all .3s ease-in;

@@ -9,7 +9,7 @@ const AppHeader = () => {
                 <ul className={styles.nav}>
                     <li className={styles.nav_item_constructor}>
                         <BurgerIcon type="primary" />
-                        <p className="text text_type_main-default">Конструктор</p>
+                        <Link className={styles.link} to="/"><span className="text text_type_main-default">Конструктор</span></Link>
                     </li>
                     <li className={styles.nav_item_order_feed}>
                         <ListIcon type="secondary" />

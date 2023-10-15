@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./main.module.css";
+import styles from "./home.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -9,7 +9,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngredients } from "../../services/ingredients";
 
-export default function MainPage() {
+export default function HomePage() {
   const dispatch = useDispatch();
   const modalData = useSelector((state) => state.modalData);
 

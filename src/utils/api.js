@@ -2,16 +2,29 @@ const config = {
   baseUrl: 'https://norma.nomoreparties.space/api/',
   ingredientsPath: 'ingredients',
   orderPath: 'orders',
+  registerPath: 'auth/register',
+  loginPath: 'auth/login',
+  logoutPath: 'auth/logout',
+  refreshTokenPath: 'auth/token',
+  forgotPath: 'password-reset',
+  resetPath: 'password-reset/reset',
   headers: {
     'Content-Type': 'application/json'
   }
 };
 
 class Api {
-  constructor({ baseUrl, ingredientsPath, orderPath, headers }) {
+  constructor({ baseUrl, ingredientsPath, orderPath, registerPath, loginPath, logoutPath,
+    refreshTokenPath, forgotPath, resetPath, headers }) {
     this.baseUrl = baseUrl;
     this.ingredientsPath = this.baseUrl + ingredientsPath;
     this.orderPath = this.baseUrl + orderPath;
+    this.registerPath = this.baseUrl + registerPath;
+    this.loginPath = this.baseUrl + loginPath;
+    this.logoutPath = this.baseUrl + logoutPath;
+    this.refreshTokenPath = this.baseUrl + refreshTokenPath;
+    this.resetPath = this.baseUrl + resetPath;
+    this.forgotPath = this.baseUrl + forgotPath;
     this.headers = headers;
   }
 
@@ -26,6 +39,43 @@ class Api {
     return res.json();
   }
 
+  _checkReponse = (res) => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  };
+
+  _refreshToken = () => {
+    return fetch(`${this.refreshTokenPath}/auth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("refreshToken"),
+      }),
+    }).then(this._checkReponse);
+  };
+
+  _fetchWithRefresh = async (url, options) => {
+    try {
+      const res = await fetch(url, options);
+      return await this._checkReponse(res);
+    } catch (err) {
+      if (err.message === "jwt expired") {
+        const refreshData = await this._refreshToken(); //обновляем токен
+        if (!refreshData.success) {
+          return Promise.reject(refreshData);
+        }
+        localStorage.setItem("refreshToken", refreshData.refreshToken);
+        localStorage.setItem("accessToken", refreshData.accessToken);
+        options.headers.authorization = refreshData.accessToken;
+        const res = await fetch(url, options); //повторяем запрос
+        return await this._checkReponse(res);
+      } else {
+        return Promise.reject(err);
+      }
+    }
+  };
+
   getIngredients() {
     return this._request(`${this.ingredientsPath}`)
   }
@@ -36,6 +86,46 @@ class Api {
       body: JSON.stringify({
         ingredients: ingredients,
       }),
+      headers: this.headers
+    })
+  }
+
+  register(userData) {
+    return this._request(`${this.registerPath}`, {
+      method: 'POST',
+      body: JSON.stringify(userData),
+      headers: this.headers
+    })
+  }
+
+  login(userData) {
+    return this._request(`${this.loginPath}`, {
+      method: 'POST',
+      body: JSON.stringify(userData),
+      headers: this.headers
+    })
+  }
+
+  logout(userData) {
+    return this._request(`${this.logoutPath}`, {
+      method: 'POST',
+      body: JSON.stringify(userData),
+      headers: this.headers
+    })
+  }
+
+  forgot(emailData) {
+    return this._request(`${this.forgotPath}`, {
+      method: 'POST',
+      body: JSON.stringify(emailData),
+      headers: this.headers
+    })
+  }
+  
+  reset(passData) {
+    return this._request(`${this.resetPath}`, {
+      method: 'POST',
+      body: JSON.stringify(passData),
       headers: this.headers
     })
   }

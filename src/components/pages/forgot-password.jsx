@@ -1,6 +1,4 @@
 import React, { useCallback, useState } from "react";
-// import { Navigate } from 'react-router-dom';
-
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
@@ -8,35 +6,22 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../../services/user";
 
 export default function ForgotPasswordPage() {
-  //   let auth = useAuth();
+  const dispatch = useDispatch();
 
-  //   const [form, setValue] = useState({ email: '', password: '' });
+  const [form, setValue] = useState({ email: "" });
 
-  //   const onChange = e => {
-  //     setValue({ ...form, [e.target.name]: e.target.value });
-  //   };
-
-  //   let login = useCallback(
-  //     e => {
-  //       e.preventDefault();
-  //       auth.signIn(form);
-  //     },
-  //     [auth, form]
-  //   );
-
-  //   if (auth.user) {
-  //     return (
-  //       <Navigate
-  //         to={'/'}
-  //       />
-  //     );
-
-  const [value, setValue] = React.useState();
-  
   const onChange = (e) => {
-    setValue(e.target.value);
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    console.log("forgotPassword: ", e);
+    console.log("forgotPassword: ", form);
+    dispatch(forgotPassword(form));
   };
 
   return (
@@ -47,12 +32,19 @@ export default function ForgotPasswordPage() {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <EmailInput
           onChange={onChange}
-          value={value}
+          value={form.email}
           name={"email"}
-          placeholder="Логин"
-          isIcon={true}
+          placeholder="Укажите e-mail"
         />
-        <Button htmlType="button" type="primary" size="large">
+        <Button
+          htmlType="button"
+          type="primary"
+          value={form.email}
+          name={"email"}
+          size="large"
+          onClick={handleSubmit}
+          disabled={form.email.length < 4}
+        >
           Восстановить
         </Button>
       </div>
