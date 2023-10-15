@@ -7,6 +7,7 @@ import RegistrationPage from "../pages/registration"
 import ForgotPasswordPage from "../pages/forgot-password"
 import ResetPasswordPage from "../pages/reset-password"
 import ProfilePage from "../pages/profile"
+import IngredientDetailsPage from "../pages/ingredient-details"
 
 {
   /* <Route path="/" element={<ProtectedRouteElement element={<HomePage />}/>} /> */
@@ -23,6 +24,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
         </Routes>
       </BrowserRouter>
     </DndProvider>
