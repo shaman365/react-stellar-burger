@@ -8,14 +8,16 @@ const config = {
   refreshTokenPath: 'auth/token',
   forgotPath: 'password-reset',
   resetPath: 'password-reset/reset',
+  userPath: 'auth/user',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json;charset=utf-8',
+    'authorization': localStorage.getItem("accessToken")
   }
 };
 
 class Api {
   constructor({ baseUrl, ingredientsPath, orderPath, registerPath, loginPath, logoutPath,
-    refreshTokenPath, forgotPath, resetPath, headers }) {
+    refreshTokenPath, forgotPath, resetPath, userPath, headers }) {
     this.baseUrl = baseUrl;
     this.ingredientsPath = this.baseUrl + ingredientsPath;
     this.orderPath = this.baseUrl + orderPath;
@@ -25,6 +27,7 @@ class Api {
     this.refreshTokenPath = this.baseUrl + refreshTokenPath;
     this.resetPath = this.baseUrl + resetPath;
     this.forgotPath = this.baseUrl + forgotPath;
+    this.userPath = this.baseUrl + userPath;
     this.headers = headers;
   }
 
@@ -44,7 +47,7 @@ class Api {
   };
 
   _refreshToken = () => {
-    return fetch(`${this.refreshTokenPath}/auth/token`, {
+    return fetch(`${this.refreshTokenPath}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -129,6 +132,21 @@ class Api {
       headers: this.headers
     })
   }
+
+  getUser() {
+    return this._fetchWithRefresh(`${this.userPath}`, {
+      method: 'GET',
+      headers: this.headers
+    })
+  }
+
+  updateUser() {
+    return this._fetchWithRefresh(`${this.userPath}`, {
+      method: 'PATCH',
+      headers: this.headers
+    })
+  }
+
 }
 
 const api = new Api(config);

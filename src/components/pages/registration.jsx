@@ -21,16 +21,6 @@ export default function RegistrationPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  // let login = useCallback(
-  //   (e) => {
-  //     console.log("login: ", e);
-  //     // e.preventDefault();
-  //     console.log("login: ", form);
-  //     dispatch(login(form));
-  //   },
-  //   [form]
-  // );
-
   function handleSubmit(e) {
     console.log("register: ", e);
     // e.preventDefault();

@@ -1,13 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import HomePage from "../pages/home";
-
-{
-  /* <Route path="/" element={<ProtectedRouteElement element={<HomePage />}/>} /> */
-}
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { checkUserAuth } from "../../services/user";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
         <Routes>

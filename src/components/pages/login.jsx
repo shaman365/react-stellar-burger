@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from "react";
-
+import { useState, useEffect } from "react";
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
@@ -14,6 +13,9 @@ import { login } from "../../services/user";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.user);
+
+  console.log( 'status: ', status );
 
   const [form, setValue] = useState({ email: "", password: "" });
 
@@ -21,20 +23,7 @@ export default function LoginPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  // let login = useCallback(
-  //   (e) => {
-  //     console.log("login: ", e);
-  //     // e.preventDefault();
-  //     console.log("login: ", form);
-  //     dispatch(login(form));
-  //   },
-  //   [form]
-  // );
-
-  function handleSubmit(e) {
-    console.log("login: ", e);
-    // e.preventDefault();
-    console.log("login: ", form);
+  const handleSubmit = (e) => {
     dispatch(login(form));
   }
 
@@ -54,7 +43,7 @@ export default function LoginPage() {
             name={"password"}
             onChange={onChange}
             value={form.password}
-            placeholder="Логин"
+            placeholder="Пароль"
             extraClass="mt-24"
           />
           <Button
@@ -62,6 +51,8 @@ export default function LoginPage() {
             type="primary"
             size="large"
             onClick={handleSubmit}
+            error={status}
+            disabled={form.password.length < 6 || form.email.length < 1}
           >
             Войти
           </Button>
@@ -79,6 +70,16 @@ export default function LoginPage() {
               Восстановить пароль
             </Link>
           </h3>
+        </div>
+        <div className={styles.messageContaner}>
+          {status === "loading" && (
+            <span className={styles.loader}></span>
+          )}
+          {status === "rejected" && (
+            <p className="text text_type_main-medium">
+              Ошибка авторизации
+            </p>
+          )}
         </div>
       </form>
     </>

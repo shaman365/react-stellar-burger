@@ -12,7 +12,7 @@ import ForgotPasswordPage from "./components/pages/forgot-password"
 import ResetPasswordPage from "./components/pages/reset-password"
 import ProfilePage from "./components/pages/profile"
 import IngredientDetailsPage from "./components/pages/ingredient-details"
-
+import { OnlyAuth, OnlyUnAuth } from "./components/app/protected-route";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,11 +20,11 @@ ReactDOM.render(
       <BrowserRouter>
         <App />
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/login" element={<OnlyUnAuth component={<LoginPage/>} />} />
+          <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage/>} />} />
+          <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage/>} />} />
+          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage/>} />} />
+          <Route path="/profile" element={<OnlyAuth component={<ProfilePage/>} />} />
           <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
         </Routes>
       </BrowserRouter>

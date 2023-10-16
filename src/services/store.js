@@ -11,6 +11,6 @@ export const store = configureStore({
         modalData: modalSlice,
         burgerData: burgerSlice,
         orderData: orderSlice,
-        userAuth: userSlice
+        user: userSlice
     }
 });
