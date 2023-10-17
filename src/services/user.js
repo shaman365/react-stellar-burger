@@ -32,25 +32,25 @@ export const logout = createAsyncThunk(
     }
 );
 
-export const forgotPassword = createAsyncThunk(
-    "user/forgot",
-    async (emailData) => {
-        const res = await api.forgot(emailData);
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        return res.user;
-    }
-);
+// export const forgotPassword = createAsyncThunk(
+//     "user/forgot",
+//     async (emailData) => {
+//         const res = await api.forgot(emailData);
+//         localStorage.setItem("accessToken", res.accessToken);
+//         localStorage.setItem("refreshToken", res.refreshToken);
+//         return res.user;
+//     }
+// );
 
-export const resetPassword = createAsyncThunk(
-    "user/reset",
-    async (passwordData) => {
-        const res = await api.reset(passwordData);
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        return res.user;
-    }
-);
+// export const resetPassword = createAsyncThunk(
+//     "user/reset",
+//     async (passwordData) => {
+//         const res = await api.reset(passwordData);
+//         localStorage.setItem("accessToken", res.accessToken);
+//         localStorage.setItem("refreshToken", res.refreshToken);
+//         return res.user;
+//     }
+// );
 
 export const getUser = createAsyncThunk(
     "user/getUser",
@@ -69,6 +69,8 @@ export const updateUser = createAsyncThunk(
 );
 
 export const checkUserAuth = () => {
+    console.log('checkUserAuth: accessToken: ', localStorage.getItem("accessToken"));
+
     return (dispatch) => {
         if (localStorage.getItem("accessToken")) {
             dispatch(getUser())
@@ -93,6 +95,9 @@ export const userSlice = createSlice({
     },
     reducers: {
         setAuthChecked: (state, action) => {
+
+            console.log('setAuthChecked action.payload: ', action.payload)
+
             state.isAuthChecked = action.payload;
         },
         setUser: (state, action) => {

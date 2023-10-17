@@ -1,30 +1,48 @@
-import React, { useCallback, useState } from "react";
-
+import { useState } from "react";
 import styles from "./pages.module.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import AppHeader from "../app-header/app-header";
 import {
   Input,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { resetPassword } from "../../services/user";
+import api from "../../utils/api";
+
 
 export default function ResetPasswordPage() {
-  const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [form, setValue] = useState({ token: "", password: "" });
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    console.log("resetPassword: ", e);
-    console.log("resetPassword: ", form);
-    dispatch(resetPassword(form));
-  }
+  useEffect(() => {
+    console.log('useEffect localStorage.getItem("isResetRequested"): ', localStorage.getItem("isResetRequested"));
+    if (!localStorage.getItem("isResetRequested")) {
+      navigate('/')
+    }
+  }, []);
+
+
+  const [status, setStatus] = useState(null);
+
+  const resetPassword = (e) => {
+    setStatus("loading")
+    api.reset(form).then((res) => {
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      localStorage.removeItem("isResetRequested");
+      navigate("/login");
+      e.preventDefault();
+    })
+    .catch(error => {
+      console.error("forgotPassword error: ", error);
+      setStatus("rejected")
+    })
+  };
 
   return (
     <div>
@@ -45,7 +63,13 @@ export default function ResetPasswordPage() {
           value={form.token}
           name={"token"}
         />
-        <Button htmlType="button" type="primary" size="large" onClick={handleSubmit} disabled={form.password.length < 6 || form.token.length < 1}>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={resetPassword}
+          disabled={form.password.length < 6 || form.token.length < 1}
+        >
           Сохранить
         </Button>
       </div>
@@ -56,6 +80,12 @@ export default function ResetPasswordPage() {
             Войти
           </Link>
         </h3>
+      </div>
+      <div className={styles.messageContaner}>
+        {status === "loading" && <span className={styles.loader}></span>}
+        {status === "rejected" && (
+          <p className="text text_type_main-medium">Ошибка. Проверьте введенный код и попробуйте еще раз.</p>
+        )}
       </div>
     </div>
   );

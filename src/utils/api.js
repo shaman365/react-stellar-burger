@@ -117,7 +117,7 @@ class Api {
     })
   }
 
-  forgot(emailData) {
+  forgot(emailData) {    
     return this._request(`${this.forgotPath}`, {
       method: 'POST',
       body: JSON.stringify(emailData),
@@ -134,6 +134,8 @@ class Api {
   }
 
   getUser() {
+    console.log('getUser called');
+
     return this._fetchWithRefresh(`${this.userPath}`, {
       method: 'GET',
       headers: this.headers

@@ -7,7 +7,11 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   // что сам факт проверки имел место.
   const isAuthChecked = useSelector(state => state.user.isAuthChecked)
 
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.user);
+
+  // console.log('Protected isAuthChecked: ', isAuthChecked);
+  // console.log('Protected user: ', user);
+  // console.log('onlyUnAuth: ', onlyUnAuth)
 
   const location = useLocation();
 
@@ -15,7 +19,8 @@ const Protected = ({ onlyUnAuth = false, component }) => {
     // Запрос еще выполняется
     // Выводим прелоадер в ПР
     // Здесь возвращается просто null для экономии времени
-    console.log('!isAuthChecked запрос еще выполняется...')
+    //console.log('!isAuthChecked запрос еще выполняется... return null');   
+
     return null;
   }
 
@@ -26,17 +31,19 @@ const Protected = ({ onlyUnAuth = false, component }) => {
     // Делаем редирект на главную страницу или на тот адрес, что записан в location.state.from
     const { from } = location.state || { from: { pathname: "/" } };
     
-    console.log('onlyUnAuth && user from: ', from);
+    //console.log('onlyUnAuth && user from: ', from);
 
     return <Navigate to={from} />;
   }
 
   if (!onlyUnAuth && !user) {
-    console.log('!onlyUnAuth && !user');
+    //console.log('!onlyUnAuth && !user');
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
   // !onlyUnAuth && user Пользователь авторизован и роут для авторизованного пользователя
+
+  //console.log('!onlyUnAuth && user Пользователь авторизован и роут для авторизованного пользователя');
 
   return component;
 };

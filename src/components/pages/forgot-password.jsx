@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
@@ -6,22 +6,34 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
-import { forgotPassword } from "../../services/user";
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/api";
 
 export default function ForgotPasswordPage() {
-  const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [form, setValue] = useState({ email: "" });
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    console.log("forgotPassword: ", e);
-    console.log("forgotPassword: ", form);
-    dispatch(forgotPassword(form));
+  const [status, setStatus] = useState(null);
+
+  const forgotPassword = (e) => {
+    setStatus("loading")
+    api
+      .forgot(form)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        localStorage.setItem("isResetRequested", true);
+        navigate("/reset-password");
+        e.preventDefault();
+      })
+      .catch((error) => {
+        console.error("forgotPassword error: ", error);
+        setStatus("rejected")
+      });
   };
 
   return (
@@ -42,7 +54,7 @@ export default function ForgotPasswordPage() {
           value={form.email}
           name={"email"}
           size="large"
-          onClick={handleSubmit}
+          onClick={forgotPassword}
           disabled={form.email.length < 4}
         >
           Восстановить
@@ -55,6 +67,12 @@ export default function ForgotPasswordPage() {
             Войти
           </Link>
         </h3>
+      </div>
+      <div className={styles.messageContaner}>
+        {status === "loading" && <span className={styles.loader}></span>}
+        {status === "rejected" && (
+          <p className="text text_type_main-medium">Ошибка, попробуйте позже.</p>
+        )}
       </div>
     </div>
   );
