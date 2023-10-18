@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
       <div className={styles.messageContaner}>
         {status === "loading" && <span className={styles.loader}></span>}
         {status === "rejected" && (
-          <p className="text text_type_main-medium">Ошибка, попробуйте позже.</p>
+          <p className={`text text_type_main-medium ${styles.errorMessage}`}>Ошибка, попробуйте позже.</p>
         )}
       </div>
     </div>

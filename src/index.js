@@ -12,7 +12,11 @@ import ForgotPasswordPage from "./components/pages/forgot-password"
 import ResetPasswordPage from "./components/pages/reset-password"
 import ProfilePage from "./components/pages/profile"
 import IngredientDetailsPage from "./components/pages/ingredient-details"
+import ProfileForm from "./components/pages/profile-form"
+import Orders from "./components/pages/orders"
 import { OnlyAuth, OnlyUnAuth } from "./components/app/protected-route";
+
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,11 +24,16 @@ ReactDOM.render(
       <BrowserRouter>
         <App />
         <Routes>
-          <Route path="/login" element={<OnlyUnAuth component={<LoginPage/>} />} />
-          <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage/>} />} />
-          <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage/>} />} />
-          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage/>} />} />
-          <Route path="/profile" element={<OnlyAuth component={<ProfilePage/>} />} />
+          <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
+          <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage />} />} />
+          <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+          <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}>
+            <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<Orders />}>
+              {/* <Route path=":id" element={<OrdersId />} /> */}
+            </Route>
+          </Route>
           <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
         </Routes>
       </BrowserRouter>
@@ -32,6 +41,14 @@ ReactDOM.render(
   </React.StrictMode >,
   document.getElementById("root")
 );
+
+
+{/* <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
+<Route index element={<ProfileForm/>}/>
+<Route path="orders" element={<Orders />}>
+  <Route path=":id" element={<OrdersId/>}/>
+</Route>
+</Route> */}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

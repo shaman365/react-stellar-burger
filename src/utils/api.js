@@ -109,22 +109,24 @@ class Api {
     })
   }
 
-  logout(userData) {
+  logout(token) {
+    console.log(`logout: ${token}`);
+
     return this._request(`${this.logoutPath}`, {
       method: 'POST',
-      body: JSON.stringify(userData),
+      body: JSON.stringify({ token: token }),
       headers: this.headers
     })
   }
 
-  forgot(emailData) {    
+  forgot(emailData) {
     return this._request(`${this.forgotPath}`, {
       method: 'POST',
       body: JSON.stringify(emailData),
       headers: this.headers
     })
   }
-  
+
   reset(passData) {
     return this._request(`${this.resetPath}`, {
       method: 'POST',
@@ -134,17 +136,16 @@ class Api {
   }
 
   getUser() {
-    console.log('getUser called');
-
     return this._fetchWithRefresh(`${this.userPath}`, {
       method: 'GET',
       headers: this.headers
     })
   }
 
-  updateUser() {
+  updateUser(userData) {
     return this._fetchWithRefresh(`${this.userPath}`, {
       method: 'PATCH',
+      body: JSON.stringify(userData),
       headers: this.headers
     })
   }

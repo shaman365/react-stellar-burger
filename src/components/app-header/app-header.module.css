@@ -53,8 +53,19 @@
 
 .link {
     color: rgb(255, 255, 255);
-    /* margin-left: 10px; */
     cursor: pointer;
     text-decoration: none;
     transition: all .3s ease-in;
+}
+
+.pending {
+    composes: nav_item;
+    text-decoration: none;
+    color: rgba(133, 133, 173, 1);
+}
+
+.active {
+    composes: nav_item;
+    text-decoration: none;
+    color: rgba(242, 242, 243, 1);
 }

@@ -38,10 +38,10 @@ export default function ResetPasswordPage() {
       navigate("/login");
       e.preventDefault();
     })
-    .catch(error => {
-      console.error("forgotPassword error: ", error);
-      setStatus("rejected")
-    })
+      .catch(error => {
+        console.error("forgotPassword error: ", error);
+        setStatus("rejected")
+      })
   };
 
   return (
@@ -84,7 +84,7 @@ export default function ResetPasswordPage() {
       <div className={styles.messageContaner}>
         {status === "loading" && <span className={styles.loader}></span>}
         {status === "rejected" && (
-          <p className="text text_type_main-medium">Ошибка. Проверьте введенный код и попробуйте еще раз.</p>
+          <p className={`text text_type_main-medium ${styles.errorMessage}`}>Ошибка. Проверьте введенный код и попробуйте еще раз.</p>
         )}
       </div>
     </div>

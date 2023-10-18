@@ -15,9 +15,9 @@ function App() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
     </DndProvider>
   );
 }

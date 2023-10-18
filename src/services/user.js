@@ -32,26 +32,6 @@ export const logout = createAsyncThunk(
     }
 );
 
-// export const forgotPassword = createAsyncThunk(
-//     "user/forgot",
-//     async (emailData) => {
-//         const res = await api.forgot(emailData);
-//         localStorage.setItem("accessToken", res.accessToken);
-//         localStorage.setItem("refreshToken", res.refreshToken);
-//         return res.user;
-//     }
-// );
-
-// export const resetPassword = createAsyncThunk(
-//     "user/reset",
-//     async (passwordData) => {
-//         const res = await api.reset(passwordData);
-//         localStorage.setItem("accessToken", res.accessToken);
-//         localStorage.setItem("refreshToken", res.refreshToken);
-//         return res.user;
-//     }
-// );
-
 export const getUser = createAsyncThunk(
     "user/getUser",
     async () => {
@@ -74,13 +54,18 @@ export const checkUserAuth = () => {
     return (dispatch) => {
         if (localStorage.getItem("accessToken")) {
             dispatch(getUser())
+                .then(res => {
+                    console.log("checkUserAuth then res: ", res.payload);
+                    dispatch(setUser(res.payload));
+                })
                 .catch(() => {
                     localStorage.removeItem("accessToken");
                     localStorage.removeItem("refreshToken");
                     dispatch(setUser(null));
                 })
                 .finally(() => dispatch(setAuthChecked(true)));
-        } else {
+        }
+        else {
             dispatch(setAuthChecked(true));
         }
     };
@@ -91,18 +76,19 @@ export const userSlice = createSlice({
     initialState: {
         user: null,
         isAuthChecked: false,
-        loading: true,
+        status: null
     },
     reducers: {
         setAuthChecked: (state, action) => {
-
-            console.log('setAuthChecked action.payload: ', action.payload)
-
+            //console.log('setAuthChecked action.payload: ', action.payload)
             state.isAuthChecked = action.payload;
         },
         setUser: (state, action) => {
             state.user = action.payload;
         },
+        clearStatus: (state) => {
+            state.status = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -119,16 +105,36 @@ export const userSlice = createSlice({
                 state.isAuthChecked = true;
                 state.status = 'rejected';
             })
+
+            .addCase(logout.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(logout.rejected, (state, action) => {
+                state.status = 'rejected';
+            })
             .addCase(logout.fulfilled, (state, action) => {
                 state.user = null;
-                state.error = action.payload;
+                state.status = 'fulfilled';
             })
+
+
+            .addCase(updateUser.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.status = 'rejected';
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.status = 'fulfilled';
+            })
+
     }
 })
 
 export const {
     setAuthChecked,
     setUser,
+    clearStatus,
 } = userSlice.actions;
 
 export default userSlice.reducer

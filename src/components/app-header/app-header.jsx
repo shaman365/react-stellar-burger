@@ -1,32 +1,39 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const AppHeader = () => {
+    const location = useLocation();
+
     return (
+
         <header className={styles.header}>
             <nav>
                 <ul className={styles.nav}>
                     <li className={styles.nav_item_constructor}>
-                        <BurgerIcon type="primary" />
-                        <Link className={styles.link} to="/"><span className="text text_type_main-default">Конструктор</span></Link>
+                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/">
+                            <BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'} />
+                            <span className="text text_type_main-default">Конструктор</span>
+                        </NavLink>
                     </li>
                     <li className={styles.nav_item_order_feed}>
-                        <ListIcon type="secondary" />
-                        <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
+                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/orders">
+                            <ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'} />
+                            <span className="text text_type_main-default">Лента заказов</span>
+                        </NavLink>
                     </li>
                     <li className={styles.logo}>
                         <Logo />
                     </li>
                     <li className={styles.nav_item_lk}>
-                        <ProfileIcon type="secondary" />                        
-                        <Link className={styles.link} to="/profile"><span className="text text_type_main-default text_color_inactive">Личный кабинет</span></Link>
+                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/profile">
+                            <ProfileIcon type={location.pathname === '/profile' ? 'primary' : 'secondary'} />
+                            <span className="text text_type_main-default">Личный кабинет</span>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
         </header>
     )
 }
-
-
 export default AppHeader;

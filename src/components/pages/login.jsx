@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./pages.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AppHeader from "../app-header/app-header";
 import {
@@ -9,13 +9,14 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { login } from "../../services/user";
+import { login, clearStatus } from "../../services/user";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { status } = useSelector((state) => state.user);
 
-  console.log( 'status: ', status );
+  console.log('status: ', status);
 
   const [form, setValue] = useState({ email: "", password: "" });
 
@@ -26,6 +27,10 @@ export default function LoginPage() {
   const handleSubmit = (e) => {
     dispatch(login(form));
   }
+
+  useEffect(() => {
+    dispatch(clearStatus());
+  }, [location]);
 
   return (
     <>
@@ -76,7 +81,7 @@ export default function LoginPage() {
             <span className={styles.loader}></span>
           )}
           {status === "rejected" && (
-            <p className="text text_type_main-medium">
+            <p className={`text text_type_main-medium ${styles.errorMessage}`}>
               Ошибка авторизации
             </p>
           )}
