@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./pages.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import AppHeader from "../app-header/app-header";
 import {
   Input,
   PasswordInput,
@@ -46,8 +45,6 @@ export default function ResetPasswordPage() {
 
   return (
     <div>
-      <AppHeader />
-
       <div className={styles.login}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <PasswordInput

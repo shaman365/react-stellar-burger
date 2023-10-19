@@ -2,9 +2,8 @@ import React, { useCallback, useState } from "react";
 // import { Navigate } from 'react-router-dom';
 
 import styles from "./ingredient-details.module.css";
-import AppHeader from "../app-header/app-header";
 
-export default function ProfilePage() {
+export default function IngredientDetails() {
 
   //todo
   const ingredient = {
@@ -24,7 +23,6 @@ export default function ProfilePage() {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <p className={`${styles.title} text text_type_main-large`}>
           Детали ингредиента

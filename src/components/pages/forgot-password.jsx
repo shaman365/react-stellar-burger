@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
-import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
   Button,
@@ -38,7 +37,6 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="section">
-      <AppHeader />
 
       <div className={styles.login}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>

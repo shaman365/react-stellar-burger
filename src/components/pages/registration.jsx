@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
-import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
   PasswordInput,
@@ -30,7 +29,6 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <AppHeader />
       <form name="register">
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Регистрация</h2>

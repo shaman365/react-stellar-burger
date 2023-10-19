@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import styles from "./pages.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import AppHeader from "../app-header/app-header";
 import {
   EmailInput,
   PasswordInput,
@@ -34,7 +33,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <AppHeader />
       <form name="login">
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Вход</h2>
