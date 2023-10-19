@@ -21,14 +21,16 @@ export default function RegistrationPage() {
   };
 
   function handleSubmit(e) {
+    e.preventDefault();
     dispatch(register(form));
   }
 
   return (
     <>
-      <form name="register">
+      <form name="register" onSubmit={handleSubmit}>
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Регистрация</h2>
+
           <Input
             type={"text"}
             placeholder={"Имя"}
@@ -51,7 +53,7 @@ export default function RegistrationPage() {
             value={form.password}
             extraClass="mt-24"
           />
-          <Button htmlType="button" type="primary" size="large" onClick={handleSubmit}>
+          <Button htmlType="submit" type="primary" size="large" >
             Зарегистрироваться
           </Button>
         </div>

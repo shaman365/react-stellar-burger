@@ -7,11 +7,6 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   const user = useSelector((store) => store.user.user);
   const location = useLocation();
 
-  // if (!isAuthChecked) {    
-  //   console.log('!isAuthChecked запрос еще выполняется... return null');
-  //   return null;
-  // }
-
   if (onlyUnAuth && user) {
     const { from } = location.state || { from: { pathname: "/" } };
     return <Navigate to={from} />;

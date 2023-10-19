@@ -7,21 +7,23 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import commonStyles from "./pages.module.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getUser, updateUser, logout, clearStatus } from "../../services/user";
 import styles from "./profile.module.css";
 
 export default function ProfileForm() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const location = useLocation();
 
     const [form, setValue] = useState({ email: "", password: "", name: "" });
+
+    const [isVisible, setVisible] = useState(false);
 
     const [fieldDisabled, setDisabled] = useState({ name: "name", disabled: true, icon: "EditIcon" });
 
     const onChange = (e) => {
         setValue({ ...form, [e.target.name]: e.target.value });
+        setVisible(true);
     };
 
     const { status, user } = useSelector((state) => state.user);
@@ -34,14 +36,17 @@ export default function ProfileForm() {
         setValue({ ...form, email: user.email, name: user.name });
     }, [location]);
 
-    const handleSubmit = (e) => {
-        console.log("handleSubmit form:", JSON.stringify(form));
-        dispatch(updateUser(form))
+    function handleSubmit(e) {
+        e.preventDefault();
+        dispatch(updateUser(form));
+        setVisible(false);
     }
 
     const handleCancel = (e) => {
+        dispatch(clearStatus());
         dispatch(getUser());
         setValue({ ...form, email: user.email, name: user.name, password: "" });
+        setVisible(false);
     }
 
     const onIconClick = (e) => {
@@ -50,19 +55,13 @@ export default function ProfileForm() {
     }
 
     const onBlur = (e) => {
-        console.log("onBlur called: e.target: ", e.target);
         setDisabled({ ...fieldDisabled, disabled: true });
-    }
-
-    const handleLogout = (e) => {
-        dispatch(logout());
-        navigate("/");
     }
 
     return (
 
         <div className={styles.profileActions}>
-            <form className={styles.profileFormFields}>
+            <form className={styles.profileFormFields} onSubmit={handleSubmit}>
                 <Input
                     type={"text"}
                     placeholder={"Имя"}
@@ -88,26 +87,30 @@ export default function ProfileForm() {
                     onChange={onChange}
                     icon={'EditIcon'}
                 />
+
+                <div className={styles.profileButtonsContainer}>
+                    {isVisible &&
+                        <>
+                            <Button
+                                htmlType="button"
+                                type="secondary"
+                                size="large"
+                                onClick={handleCancel}
+                            >
+                                Отмена
+                            </Button>
+                            <Button
+                                htmlType="submit"
+                                type="primary"
+                                size="large"
+                                disabled={form.password.length < 6 || form.email.length < 1 || form.name.length < 1}
+                            >
+                                Сохранить
+                            </Button>
+                        </>
+                    }
+                </div>
             </form>
-            <div className={styles.profileButtonsContainer}>
-                <Button
-                    htmlType="button"
-                    type="secondary"
-                    size="large"
-                    onClick={handleCancel}
-                >
-                    Отмена
-                </Button>
-                <Button
-                    htmlType="button"
-                    type="primary"
-                    size="large"
-                    onClick={handleSubmit}
-                    disabled={form.password.length < 6 || form.email.length < 1 || form.name.length < 1}
-                >
-                    Сохранить
-                </Button>
-            </div>
             <div className={commonStyles.messageContaner}>
                 {status === "loading" && (
                     <span className={commonStyles.loader}></span>

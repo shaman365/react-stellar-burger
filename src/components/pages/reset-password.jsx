@@ -27,7 +27,8 @@ export default function ResetPasswordPage() {
 
   const [status, setStatus] = useState(null);
 
-  const resetPassword = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setStatus("loading")
     api.reset(form).then((res) => {
       localStorage.setItem("accessToken", res.accessToken);
@@ -44,7 +45,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div>
-      <div className={styles.login}>
+      <form className={styles.login} name="reset-password" onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <PasswordInput
           name={"password"}
@@ -60,15 +61,15 @@ export default function ResetPasswordPage() {
           name={"token"}
         />
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="large"
-          onClick={resetPassword}
           disabled={form.password.length < 6 || form.token.length < 1}
         >
           Сохранить
         </Button>
-      </div>
+      </form>
+
       <div className={styles.additionalActions}>
         <h3 className="text text_type_main-small">
           Вспомнили пароль?

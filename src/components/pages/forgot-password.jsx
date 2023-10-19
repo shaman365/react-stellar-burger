@@ -18,7 +18,8 @@ export default function ForgotPasswordPage() {
 
   const [status, setStatus] = useState(null);
 
-  const forgotPassword = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setStatus("loading")
     api
       .forgot(form)
@@ -37,8 +38,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="section">
-
-      <div className={styles.login}>
+      <form className={styles.login} name="forgot-password" onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <EmailInput
           onChange={onChange}
@@ -47,17 +47,16 @@ export default function ForgotPasswordPage() {
           placeholder="Укажите e-mail"
         />
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           value={form.email}
           name={"email"}
           size="large"
-          onClick={forgotPassword}
           disabled={form.email.length < 4}
         >
           Восстановить
         </Button>
-      </div>
+      </form>
       <div className={styles.additionalActions}>
         <h3 className="text text_type_main-small">
           Вспомнили пароль?

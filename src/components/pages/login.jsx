@@ -22,6 +22,7 @@ export default function LoginPage() {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(login(form));
   }
 
@@ -31,7 +32,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <form name="login">
+      <form name="login" onSubmit={handleSubmit}>
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Вход</h2>
           <EmailInput
@@ -48,10 +49,9 @@ export default function LoginPage() {
             extraClass="mt-24"
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="large"
-            onClick={handleSubmit}
             error={status}
             disabled={form.password.length < 6 || form.email.length < 1}
           >
