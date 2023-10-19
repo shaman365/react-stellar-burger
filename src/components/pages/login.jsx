@@ -15,8 +15,6 @@ export default function LoginPage() {
   const location = useLocation();
   const { status } = useSelector((state) => state.user);
 
-  console.log('status: ', status);
-
   const [form, setValue] = useState({ email: "", password: "" });
 
   const onChange = (e) => {

@@ -21,9 +21,6 @@ export default function RegistrationPage() {
   };
 
   function handleSubmit(e) {
-    console.log("register: ", e);
-    // e.preventDefault();
-    console.log("register: ", form);
     dispatch(register(form));
   }
 

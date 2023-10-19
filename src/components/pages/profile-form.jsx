@@ -103,7 +103,7 @@ export default function ProfileForm() {
                     type="primary"
                     size="large"
                     onClick={handleSubmit}
-                    disabled={form.password.length < 6 && form.email.length < 1 && form.name.length < 1}
+                    disabled={form.password.length < 6 || form.email.length < 1 || form.name.length < 1}
                 >
                     Сохранить
                 </Button>

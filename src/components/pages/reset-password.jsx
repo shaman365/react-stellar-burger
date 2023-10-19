@@ -19,7 +19,6 @@ export default function ResetPasswordPage() {
   };
 
   useEffect(() => {
-    console.log('useEffect localStorage.getItem("isResetRequested"): ', localStorage.getItem("isResetRequested"));
     if (!localStorage.getItem("isResetRequested")) {
       navigate('/')
     }

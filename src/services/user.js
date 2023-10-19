@@ -49,13 +49,10 @@ export const updateUser = createAsyncThunk(
 );
 
 export const checkUserAuth = () => {
-    console.log('checkUserAuth: accessToken: ', localStorage.getItem("accessToken"));
-
     return (dispatch) => {
         if (localStorage.getItem("accessToken")) {
             dispatch(getUser())
                 .then(res => {
-                    console.log("checkUserAuth then res: ", res.payload);
                     dispatch(setUser(res.payload));
                 })
                 .catch(() => {
@@ -80,7 +77,6 @@ export const userSlice = createSlice({
     },
     reducers: {
         setAuthChecked: (state, action) => {
-            //console.log('setAuthChecked action.payload: ', action.payload)
             state.isAuthChecked = action.payload;
         },
         setUser: (state, action) => {

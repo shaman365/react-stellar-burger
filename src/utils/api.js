@@ -11,7 +11,6 @@ const config = {
   userPath: 'auth/user',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    'authorization': localStorage.getItem("accessToken")
   }
 };
 
@@ -84,6 +83,7 @@ class Api {
   }
 
   setOrder(ingredients) {
+    this.addAuthHeader();
     return this._request(`${this.orderPath}`, {
       method: 'POST',
       body: JSON.stringify({
@@ -110,8 +110,6 @@ class Api {
   }
 
   logout(token) {
-    console.log(`logout: ${token}`);
-
     return this._request(`${this.logoutPath}`, {
       method: 'POST',
       body: JSON.stringify({ token: token }),
@@ -136,6 +134,8 @@ class Api {
   }
 
   getUser() {
+    this.addAuthHeader();
+
     return this._fetchWithRefresh(`${this.userPath}`, {
       method: 'GET',
       headers: this.headers
@@ -143,11 +143,16 @@ class Api {
   }
 
   updateUser(userData) {
+    this.addAuthHeader();
     return this._fetchWithRefresh(`${this.userPath}`, {
       method: 'PATCH',
       body: JSON.stringify(userData),
       headers: this.headers
     })
+  }
+
+  addAuthHeader() {
+    this.headers.authorization = localStorage.getItem("accessToken");
   }
 
 }
