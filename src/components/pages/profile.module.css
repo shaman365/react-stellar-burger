@@ -1,0 +1,102 @@
+.section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.profileMenu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  /* border: 1px yellow solid; */
+  min-width: 320px;
+  position: absolute;
+  top: 0px;
+  right: 530px;
+}
+
+.profileActionsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  min-height: 320px;
+  max-width: 480px;
+  margin-top: 120px;
+  position: relative;
+}
+
+.profileFormFields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 24px;
+}
+
+.profileActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileButtonsContainer {
+  margin-top: 24px;
+  display: flex;
+  min-width: 480px;
+  justify-content: flex-end;
+}
+
+.profileNotion {
+  max-width: 320px;
+  padding-top: 80px;
+}
+
+.menuItem {
+  min-height: 64px;
+  transition: all .3s ease-in;
+}
+
+.menuItem:hover {
+  opacity: .6;
+}
+
+.menuItemProfile {
+  composes: menuItem;
+}
+
+.menuItemHistory {
+  composes: menuItem;
+}
+
+.menuItemExit {
+  composes: menuItem;
+  cursor: pointer;
+}
+
+.active {
+  text-decoration: none;
+  color: #F2F2F3;
+  font-family: Jet Brains Mono;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.25;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+.pending {
+  text-decoration: none;
+  color: #8585AD;
+  font-family: Jet Brains Mono;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.25;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}

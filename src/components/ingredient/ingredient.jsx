@@ -1,9 +1,9 @@
 import styles from './ingredient.module.css'
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useDispatch, useSelector } from "react-redux"
-import { openModalIngredient } from '../../services/modal'
+import { useSelector } from "react-redux"
 import { useDrag } from "react-dnd"
 import { ingredientPropType } from "../../utils/prop-types"
+import { NavLink, useLocation } from "react-router-dom"
 
 const getIngredientsCount = (ingredient, array) => {
     const count = array.reduce((total, item) => {
@@ -18,7 +18,7 @@ const getIngredientsCount = (ingredient, array) => {
 
 const Ingredient = ({ ingredientData }) => {
 
-    const dispatch = useDispatch()
+    const location = useLocation();
 
     const burgerData = useSelector(state => state.burgerData)
 
@@ -37,12 +37,12 @@ const Ingredient = ({ ingredientData }) => {
 
     return (
         <li className={styles.ingredient} ref={drag}>
-            <button
-                className={styles.button}
-                onClick={() => {
-                    dispatch(openModalIngredient(ingredientData))
-                }}
+            <NavLink
+                className={styles.link}
+                to={`/ingredients/${ingredientData._id}`}
+                state={{ background: location }}
             >
+
                 <img className="ml-4 mr-4" src={ingredientData.image} alt={ingredientData.name} />
                 <div className={`${styles.price} mt-1 mb-1}`}>
                     <p className="text text_type_digits-default">{ingredientData.price}</p>
@@ -51,7 +51,7 @@ const Ingredient = ({ ingredientData }) => {
                 <p className="text text_type_main-default">
                     {ingredientData.name}
                 </p>
-            </button>
+            </NavLink>
             {
                 ingredientCount > 0
                 &&

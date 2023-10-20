@@ -50,3 +50,22 @@
 .logo {
     margin: 8px 288px 0 112px;
 }
+
+.link {
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .3s ease-in;
+}
+
+.pending {
+    composes: nav_item;
+    text-decoration: none;
+    color: rgba(133, 133, 173, 1);
+}
+
+.active {
+    composes: nav_item;
+    text-decoration: none;
+    color: rgba(242, 242, 243, 1);
+}

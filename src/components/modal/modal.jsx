@@ -1,25 +1,25 @@
 import { useEffect, useRef } from "react";
+import PropTypes from 'prop-types'
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from './modal.module.css'
 import close_image from '../../images/close.svg';
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../services//modal"
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ children }) => {
+const Modal = ({ children, onClose }) => {
 
   const modal = useRef();
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(closeModal());
+    onClose()
   }
 
   const overlayClosePopup = (e) => {
     if (modal.current && !modal.current.contains(e.target)) {
-      close();
+      close()
     }
     return;
   }
@@ -54,5 +54,9 @@ const Modal = ({ children }) => {
     modalRoot
   );
 }
+
+Modal.propTypes = {
+  onClose: PropTypes.func
+};
 
 export default Modal
