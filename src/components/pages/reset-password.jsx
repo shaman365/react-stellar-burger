@@ -8,15 +8,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import api from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
 
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
-  const [form, setValue] = useState({ token: "", password: "" });
 
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({});
 
   useEffect(() => {
     if (!localStorage.getItem("isResetRequested")) {
@@ -30,7 +28,7 @@ export default function ResetPasswordPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("loading")
-    api.reset(form).then((res) => {
+    api.reset(values).then((res) => {
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
       localStorage.removeItem("isResetRequested");
@@ -49,22 +47,22 @@ export default function ResetPasswordPage() {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <PasswordInput
           name={"password"}
-          onChange={onChange}
-          value={form.password}
+          onChange={handleChange}
+          value={values.password}
           extraClass="mt-24"
         />
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
-          onChange={onChange}
-          value={form.token}
+          onChange={handleChange}
+          value={values.token}
           name={"token"}
         />
         <Button
           htmlType="submit"
           type="primary"
           size="large"
-          disabled={form.password.length < 6 || form.token.length < 1}
+          disabled={values.password.length < 6 || values.token.length < 1}
         >
           Сохранить
         </Button>

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import commonStyles from "./pages.module.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getUser, updateUser, logout, clearStatus } from "../../services/user";
+import { getUser, updateUser, clearStatus } from "../../services/user";
 import styles from "./profile.module.css";
 
 export default function ProfileForm() {

@@ -7,14 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
+
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const [form, setValue] = useState({ email: "" });
 
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({});
 
   const [status, setStatus] = useState(null);
 
@@ -22,7 +21,7 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setStatus("loading")
     api
-      .forgot(form)
+      .forgot(values)
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
@@ -41,18 +40,17 @@ export default function ForgotPasswordPage() {
       <form className={styles.login} name="forgot-password" onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <EmailInput
-          onChange={onChange}
-          value={form.email}
+          onChange={handleChange}
+          value={values.email}
           name={"email"}
           placeholder="Укажите e-mail"
         />
         <Button
           htmlType="submit"
           type="primary"
-          value={form.email}
           name={"email"}
           size="large"
-          disabled={form.email.length < 4}
+          disabled={values.email.length < 4}
         >
           Восстановить
         </Button>

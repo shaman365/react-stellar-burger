@@ -16,18 +16,23 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { OnlyAuth, OnlyUnAuth } from "../app/protected-route";
 import { loadIngredients } from "../../services/ingredients";
-import api from "../../utils/api"
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const background = location.state && location.state.background;
+  const PATH_HOME = '/';
+  const PATH_INGREDIENTS = '/ingredients/:ingredientId'
+  const PATH_LOGIN = '/login';
+  const PATH_REGISTER = '/register';
+  const PATH_FORGOT = '/forgot-password';
+  const PATH_RESET = '/reset-password';
+  const PATH_PROFILE = '/profile';
+  const PATH_ORDER_LIST = '/orders';
+  const PATH_ORDER = '/order';
 
-  const handleModalClose = () => {
-    navigate(-1);
-  };
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(loadIngredients());
@@ -38,19 +43,24 @@ function App() {
     dispatch(checkUserAuth());
   }, []);
 
+  const handleModalClose = () => {
+    navigate(-1);
+  };
+
+
   return (
     <>
       <AppHeader />
       <Routes location={background || location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/ingredients/:ingredientId" element={<IngredientDetails isFullScreen={true} />} />
-        <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
-        <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage />} />} />
-        <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
-        <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
-        <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}>
+        <Route path={PATH_HOME} element={<HomePage />} />
+        <Route path={PATH_INGREDIENTS} element={<IngredientDetails isFullScreen={true} />} />
+        <Route path={PATH_LOGIN} element={<OnlyUnAuth component={<LoginPage />} />} />
+        <Route path={PATH_REGISTER} element={<OnlyUnAuth component={<RegistrationPage />} />} />
+        <Route path={PATH_FORGOT} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+        <Route path={PATH_RESET} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+        <Route path={PATH_PROFILE} element={<OnlyAuth component={<ProfilePage />} />}>
           <Route index element={<ProfileForm />} />
-          <Route path="orders" element={<Orders />}>
+          <Route path={PATH_ORDER_LIST} element={<Orders />}>
             {/* <Route path=":id" element={<OrdersId />} /> */}
           </Route>
         </Route>
@@ -59,7 +69,7 @@ function App() {
       {background &&
         <Routes>
           <Route
-            path='/ingredients/:ingredientId'
+            path={PATH_INGREDIENTS}
             element={
               <Modal onClose={handleModalClose}>
                 <IngredientDetails isFullScreen={false} />
@@ -68,7 +78,7 @@ function App() {
           />
 
           <Route
-            path='/order'
+            path={PATH_ORDER}
             element={
               <OnlyAuth
                 component={

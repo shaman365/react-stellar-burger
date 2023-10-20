@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./pages.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,20 +10,18 @@ import {
 
 import { login, clearStatus } from "../../services/user";
 
+import { useForm } from "../../hooks/useForm";
+
 export default function LoginPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { status } = useSelector((state) => state.user);
 
-  const [form, setValue] = useState({ email: "", password: "" });
-
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(form));
+    dispatch(login(values));
   }
 
   useEffect(() => {
@@ -36,15 +34,15 @@ export default function LoginPage() {
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Вход</h2>
           <EmailInput
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
             placeholder="Логин"
           />
           <PasswordInput
             name={"password"}
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             placeholder="Пароль"
             extraClass="mt-24"
           />
@@ -53,7 +51,7 @@ export default function LoginPage() {
             type="primary"
             size="large"
             error={status}
-            disabled={form.password.length < 6 || form.email.length < 1}
+            disabled={values.password.length < 6 || values.email.length < 1}
           >
             Войти
           </Button>

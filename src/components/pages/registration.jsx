@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./pages.module.css";
 import { Link } from "react-router-dom";
 import {
@@ -9,20 +10,24 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { register } from "../../services/user";
+import { register, clearStatus } from "../../services/user";
+import { useForm } from "../../hooks/useForm";
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
-  const [form, setValue] = useState({ name: "", email: "", password: "" });
+  useEffect(() => {
+    dispatch(clearStatus());
+  }, [location]);
 
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({});
+
+  const { status } = useSelector((state) => state.user);
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(register(form));
+    dispatch(register(values));
   }
 
   return (
@@ -30,27 +35,26 @@ export default function RegistrationPage() {
       <form name="register" onSubmit={handleSubmit}>
         <div className={styles.login}>
           <h2 className="text text_type_main-medium">Регистрация</h2>
-
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={onChange}
-            value={form.name}
+            onChange={handleChange}
+            value={values.name}
             name={"name"}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
           />
           <EmailInput
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
             placeholder="Логин"
           />
           <PasswordInput
             name={"password"}
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             extraClass="mt-24"
           />
           <Button htmlType="submit" type="primary" size="large" >
@@ -64,6 +68,19 @@ export default function RegistrationPage() {
               Войти
             </Link>
           </h3>
+        </div>
+        <div className={styles.messageContaner}>
+          {status === "loading" && (
+            <span className={styles.loader}></span>
+          )}
+          {status === "rejected" && (
+            <p className={`text text_type_main-medium ${styles.errorMessage}`}>
+              Ошибка при регистрации. Проверьте введенный email.
+            </p>
+          )}
+          {status === "success" && (
+            <Navigate to="/"></Navigate>
+          )}
         </div>
       </form>
     </>

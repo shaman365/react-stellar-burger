@@ -124,6 +124,21 @@ export const userSlice = createSlice({
                 state.status = 'fulfilled';
             })
 
+            .addCase(register.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.isAuthChecked = true;
+                state.status = 'fulfilled';
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.user = action.payload;
+                state.isAuthChecked = true;
+                state.status = 'rejected';
+            })
+
+
     }
 })
 
