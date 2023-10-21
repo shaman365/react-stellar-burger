@@ -51,7 +51,7 @@ export default function LoginPage() {
             type="primary"
             size="large"
             error={status}
-            disabled={values.password.length < 6 || values.email.length < 1}
+            disabled={(values.password && values.password.length < 6) || values.email && values.email.length < 1}
           >
             Войти
           </Button>
