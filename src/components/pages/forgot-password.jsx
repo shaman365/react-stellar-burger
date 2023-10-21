@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           type="primary"
           name={"email"}
           size="large"
-          disabled={values.email.length < 4}
+          disabled={values.email && values.email.length < 4}
         >
           Восстановить
         </Button>

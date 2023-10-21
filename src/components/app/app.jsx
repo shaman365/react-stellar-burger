@@ -29,7 +29,7 @@ function App() {
   const PATH_FORGOT = '/forgot-password';
   const PATH_RESET = '/reset-password';
   const PATH_PROFILE = '/profile';
-  const PATH_ORDER_LIST = '/orders';
+  const PATH_ORDER_LIST = 'orders';
   const PATH_ORDER = '/order';
 
   const background = location.state && location.state.background;
