@@ -5,11 +5,11 @@ import {
     Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import commonStyles from "./pages.module.css";
+import commonStyles from "../../common.module.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getUser, updateUser, clearStatus } from "../../services/user";
-import styles from "./profile.module.css";
+import { getUser, updateUser, clearStatus } from "../../../../services/user";
+import styles from "./profile-form.module.css";
 
 export default function ProfileForm() {
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import HomePage from "../pages/home";
+import HomePage from "../pages/home/home";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkUserAuth } from "../../services/user";
@@ -7,14 +7,14 @@ import LoginPage from "../pages/login";
 import RegistrationPage from "../pages/registration"
 import ForgotPasswordPage from "../pages/forgot-password"
 import ResetPasswordPage from "../pages/reset-password"
-import ProfilePage from "../pages/profile"
+import ProfilePage from "../pages/profile/profile"
 import IngredientDetails from "../ingredient-details/ingredient-details"
-import ProfileForm from "../pages/profile-form"
+import ProfileForm from "../pages/profile/form/profile-form"
 import AppHeader from "../app-header/app-header"
-import Orders from "../pages/orders"
+import Orders from "../pages/profile/orders/orders"
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { OnlyAuth, OnlyUnAuth } from "../app/protected-route";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { loadIngredients } from "../../services/ingredients";
 
 function App() {

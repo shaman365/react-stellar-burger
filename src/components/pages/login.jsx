@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

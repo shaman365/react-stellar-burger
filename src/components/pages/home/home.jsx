@@ -1,8 +1,8 @@
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import styles from "./home.module.css";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+import BurgerIngredients from "../../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../../burger-constructor/burger-constructor";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function HomePage() {

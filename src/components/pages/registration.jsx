@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link } from "react-router-dom";
 import {
   EmailInput,

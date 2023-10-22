@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link } from "react-router-dom";
 import {
   EmailInput,
