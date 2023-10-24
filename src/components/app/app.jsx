@@ -14,6 +14,8 @@ import AppHeader from "../app-header/app-header"
 import Orders from "../pages/profile/orders/orders"
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import FeedPage from "../pages/feed/feed";
+import Page404 from "../pages/404/404"
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { loadIngredients } from "../../services/ingredients";
 
@@ -31,6 +33,7 @@ function App() {
   const PATH_PROFILE = '/profile';
   const PATH_ORDER_LIST = 'orders';
   const PATH_ORDER = '/order';
+  const PATH_FEED = '/feed';
 
   const background = location.state && location.state.background;
 
@@ -61,9 +64,13 @@ function App() {
         <Route path={PATH_PROFILE} element={<OnlyAuth component={<ProfilePage />} />}>
           <Route index element={<ProfileForm />} />
           <Route path={PATH_ORDER_LIST} element={<Orders />}>
-            {/* <Route path=":id" element={<OrdersId />} /> */}
-          </Route>
+            {/* <Route path=":id" element={<OrderDetails />} /> */}
+          </Route>          
         </Route>
+        <Route path={PATH_FEED} element={<FeedPage/>}>
+          {/* <Route path=":id" element={<OrderDetails />} /> */}
+        </Route>
+        <Route path="*" element={<Page404 />}/> 
       </Routes >
 
       {background &&

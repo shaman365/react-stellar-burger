@@ -13,6 +13,9 @@ export default function Orders() {
             <OrderCard/>
             <OrderCard/>
             <OrderCard/>
+            <OrderCard/>
+            <OrderCard/>
+            <OrderCard/>
         </ul>
     )
 }

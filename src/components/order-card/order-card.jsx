@@ -87,6 +87,34 @@ export default function OrderCard() {
       image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
       __v: 0,
     },
+    {
+      _id: "643d69a5c3f7b9001cfa0943",
+      name: "Соус фирменный Space Sauce",
+      type: "sauce",
+      proteins: 50,
+      fat: 22,
+      carbohydrates: 11,
+      calories: 14,
+      price: 80,
+      image: "https://code.s3.yandex.net/react/code/sauce-04.png",
+      image_mobile: "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+      image_large: "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+      __v: 0,
+    },
+    {
+      _id: "643d69a5c3f7b9001cfa093f",
+      name: "Мясо бессмертных моллюсков Protostomia",
+      type: "main",
+      proteins: 433,
+      fat: 244,
+      carbohydrates: 33,
+      calories: 420,
+      price: 1337,
+      image: "https://code.s3.yandex.net/react/code/meat-02.png",
+      image_mobile: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+      image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
+      __v: 0,
+    },
   ];
 
   return (
@@ -98,25 +126,51 @@ export default function OrderCard() {
         </span>
       </div>
       <div className={styles.info}>
-        <p className={`text text_type_main-large ${styles.burgerName}`}>
+        <p className={`text text_type_main-medium ${styles.burgerName}`}>
           Death Star Starship Main бургер
         </p>
         <p className={`text text_type_main-default ${styles.status}`}>Создан</p>
       </div>
       <div className={styles.componentsAndPrice}>
         <ul className={styles.ingredientList}>
-          {ingredientList.map((item) => {
-            return (
-              <li className={styles.ingredient}>
-                <img
-                  src={item.image_mobile}
-                  width="115"
-                  height="54"
-                  alt="Изображение ингредиента"
-                />
-              </li>
-            );
+          {ingredientList.map((item, index) => {
+            if (index <= 4) {
+              const zIndex = 6 - index;
+              return (
+                <li
+                  className={styles.ingredient}
+                  key={index}
+                  style={{ zIndex: zIndex }}
+                >
+                  <img
+                    src={item.image_mobile}
+                    width="115"
+                    height="54"
+                    alt="Изображение ингредиента"
+                  />
+                </li>
+              );
+            }
+            return null;
           })}
+          {ingredientList.length > 5 && (
+            <li className={styles.ingredient} style={{ zIndex: 1 }}>
+              <img
+                src={`${ingredientList[5].image_mobile}`}
+                style={{ opacity: .7 }}
+                width="115"
+                height="54"
+                alt="Изображение ингредиента"
+              />
+            </li>
+          )}
+          <li>
+            <p
+              className={`${styles.counter} text text_type_main-default`}
+            >
+              {`+${ingredientList.length - 5}`}
+            </p>
+          </li>
         </ul>
         <div className={styles.priceContainer}>
           <div className={`text text_type_digits-default ${styles.price}`}>

@@ -17,7 +17,7 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={styles.nav_item_order_feed}>
-                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/orders">
+                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/feed">
                             <ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'} />
                             <span className="text text_type_main-default">Лента заказов</span>
                         </NavLink>
