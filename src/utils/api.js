@@ -45,7 +45,7 @@ class Api {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   };
 
-  _refreshToken = () => {
+  refreshToken = () => {
     return fetch(`${this.refreshTokenPath}`, {
       method: "POST",
       headers: {
@@ -63,7 +63,7 @@ class Api {
       return await this._checkReponse(res);
     } catch (err) {
       if (err.message === "jwt expired") {
-        const refreshData = await this._refreshToken(); //обновляем токен
+        const refreshData = await this.refreshToken(); //обновляем токен
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }

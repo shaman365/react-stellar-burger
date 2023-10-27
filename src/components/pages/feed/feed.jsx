@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 import styles from "./feed.module.css";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,13 @@ export default function FeedPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation().pathname;
+
+  useEffect(
+    () => { 
+      dispatch({type: 'FEED_WS_CONNECTION_START', payload: 'wss://norma.nomoreparties.space/orders/all'})
+    },
+    []
+  )
 
   return (
     <main className={styles.main}>
