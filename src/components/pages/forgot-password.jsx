@@ -13,7 +13,7 @@ import { useForm } from "../../hooks/useForm";
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({});
+  const { values, handleChange } = useForm({email: ''});
 
   const [status, setStatus] = useState(null);
 

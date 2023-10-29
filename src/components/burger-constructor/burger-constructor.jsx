@@ -44,7 +44,6 @@ const BurgerConstructor = () => {
     if (allIngredients.length >= 1) {
       navigate('/order', { state: { background: location } })
       dispatch(getOrderData(allIngredients))
-      //dispatch(clearIngredients());
     }
   };
 

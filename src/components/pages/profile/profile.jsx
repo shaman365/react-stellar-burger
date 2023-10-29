@@ -21,6 +21,8 @@ export default function ProfilePage() {
   return (
     <main className={styles.main}>
       <div className={styles.section}>
+      {(location === '/profile' || location === '/profile/orders')
+          &&
         <div className={styles.profileContainer}>
           <nav>
             <ul className={styles.profileMenu}>
@@ -67,8 +69,9 @@ export default function ProfilePage() {
               </li>
             </ul>
           </nav>
-          <Outlet />
         </div>
+        }
+      <Outlet/> 
       </div>
     </main>
   );

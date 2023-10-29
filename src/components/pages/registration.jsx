@@ -21,7 +21,7 @@ export default function RegistrationPage() {
     dispatch(clearStatus());
   }, [location]);
 
-  const { values, handleChange } = useForm({});
+  const { values, handleChange } = useForm({name: '', email: '', password: ''});
 
   const { status } = useSelector((state) => state.user);
 

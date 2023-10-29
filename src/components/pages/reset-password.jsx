@@ -14,7 +14,7 @@ import { useForm } from "../../hooks/useForm";
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({});
+  const { values, handleChange } = useForm({password: '', token: ''});
 
   useEffect(() => {
     if (!localStorage.getItem("isResetRequested")) {

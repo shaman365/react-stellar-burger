@@ -1,4 +1,5 @@
 import api from "../utils/api"
+import { getValidDataList } from "../utils/utils"
 
 const socketMiddleware = (wsActions) => {
     return store => {
@@ -15,26 +16,27 @@ const socketMiddleware = (wsActions) => {
             if (type === wsStart) {
                 // объект класса WebSocket
                 socket = new WebSocket(payload);
-                console.log ('socket.wsStart: socketL ', socket)
+                // console.log('socket.wsStart: socket: ', socket)
             }
+
             if (socket) {
 
                 // функция, которая вызывается при открытии сокета
                 socket.onopen = event => {
-                    console.log ('socket.onopen: ', event)
+                    //console.log('socket.onopen: ', event)
                     dispatch(wsOpen(event));
                 };
 
                 // функция, которая вызывается при ошибке соединения
                 socket.onerror = event => {
-                    console.log ('socket.onerror: ', event)
+                    //console.log('socket.onerror: ', event)
                     dispatch(wsError(event.message))
                 };
 
                 // функция, которая вызывается при получении события от сервера
                 socket.onmessage = event => {
                     const data = JSON.parse(event.data);
-                    console.log ('socket.onmessage: ', data)
+                    //console.log('socket.onmessage: ', data)
 
                     if (data.message === 'Invalid or missing token') {
                         api.refreshToken()
@@ -43,21 +45,25 @@ const socketMiddleware = (wsActions) => {
                                 localStorage.setItem("accessToken", res.accessToken);
                             })
                             .then(res => {
-                                //todo
-                                console.log("some logic here");
+                                dispatch({
+                                    type: 'HISTORY_ORDERS_WS_CONNECTION_START',
+                                    payload: `wss://norma.nomoreparties.space/orders?token=${localStorage.getItem('accessToken').split('Bearer ')[1]}`
+                                })
                             })
                             .catch(err => {
                                 return Promise.reject(err);
                             })
                     }
 
-                    //todo
-                    //validate data before dispatch
-                    
-                    dispatch(wsMessage(data));
+                    let validData = {
+                        ...data,
+                        orders: getValidDataList(data.orders)
+                    }
+                    dispatch(wsMessage(validData))
                 };
                 // функция, которая вызывается при закрытии соединения
                 socket.onclose = event => {
+
                     if (isConnected) {
                         timerInstance = setTimeout(() => {
                             dispatch(wsStart);

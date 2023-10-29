@@ -14,3 +14,23 @@ export function getIngrediensCountWithIndexes(ingredient, array) {
 
     return count
 }
+
+function isElementValid(array) {
+    let result = true
+    array.forEach(element => {
+        if (!element) {
+            result = false
+        }
+    })
+    return result
+}
+
+export function getValidDataList(array) {
+    return array.filter(item => {
+        return isElementValid(item.ingredients)
+    })
+}
+
+export function isEmptyObj(obj) {
+    return Object.keys(obj).length === 0;
+}

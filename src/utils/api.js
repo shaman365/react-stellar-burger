@@ -8,7 +8,7 @@ const config = {
   refreshTokenPath: 'auth/token',
   forgotPath: 'password-reset',
   resetPath: 'password-reset/reset',
-  userPath: 'auth/user',
+  userPath: 'auth/user',  
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   }
@@ -155,6 +155,11 @@ class Api {
     this.headers.authorization = localStorage.getItem("accessToken");
   }
 
+  getOrder(number) {
+    console.log('API getOrder(number): ', number);
+
+    return this._request(`${this.orderPath}/${number}`)
+  }
 }
 
 const api = new Api(config);

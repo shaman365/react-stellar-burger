@@ -80,3 +80,8 @@
     display: flex;
     gap: 8px;
   }
+
+  .statusDone {
+    color: var(--colors-interface-success);
+  }
+  
