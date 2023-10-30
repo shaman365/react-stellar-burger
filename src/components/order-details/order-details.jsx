@@ -1,8 +1,10 @@
 import styles from "./order-details.module.css";
+import commonStyles from "../pages/common.module.css";
 import orderAccept from "../../images/done.svg";
 import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
+
   const { orderData } = useSelector((state) => state);
   const status = orderData?.status || "unknown";
   const orderNumber = orderData.order.number;
@@ -10,7 +12,12 @@ const OrderDetails = () => {
   return (
     <div className={styles.container}>
       {status === "loading" && (
-        <p className="text text_type_main-large mt-20 mb-30">Загрузка...</p>
+        <>
+          <p className="text text_type_main-medium mt-20 mb-30">
+            Подождите, идёт оформление заказа
+          </p>
+          <span className={commonStyles.loaderOrderPending}></span>
+        </>
       )}
       {status === "reject" && (
         <p className="text text_type_main-large mt-10 mb-30">
@@ -21,7 +28,9 @@ const OrderDetails = () => {
         <p className="text text_type_digits-large mt-30">{orderNumber}</p>
       )}
       {status === "unknown" && (
-        <p className="text text_type_main-large mt-10 mb-30">Неизвестная ошибка</p>
+        <p className="text text_type_main-large mt-10 mb-30">
+          Неизвестная ошибка
+        </p>
       )}
 
       {status === "fulfilled" && (

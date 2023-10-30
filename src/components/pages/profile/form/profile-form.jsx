@@ -5,11 +5,12 @@ import {
     Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import commonStyles from "./pages.module.css";
+import commonStyles from "../../common.module.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getUser, updateUser, clearStatus } from "../../services/user";
-import styles from "./profile.module.css";
+import { getUser, updateUser, clearStatus } from "../../../../services/user";
+import styles from "./profile-form.module.css";
+import { getUserDataFromStore } from "../../../../utils/utils";
 
 export default function ProfileForm() {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function ProfileForm() {
         setVisible(true);
     };
 
-    const { status, user } = useSelector((state) => state.user);
+    const { status, user } = useSelector(getUserDataFromStore);
 
     const inputRef = React.createRef();
 

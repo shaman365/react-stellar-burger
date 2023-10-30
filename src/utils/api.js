@@ -8,7 +8,7 @@ const config = {
   refreshTokenPath: 'auth/token',
   forgotPath: 'password-reset',
   resetPath: 'password-reset/reset',
-  userPath: 'auth/user',
+  userPath: 'auth/user',  
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   }
@@ -45,7 +45,7 @@ class Api {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   };
 
-  _refreshToken = () => {
+  refreshToken = () => {
     return fetch(`${this.refreshTokenPath}`, {
       method: "POST",
       headers: {
@@ -63,7 +63,7 @@ class Api {
       return await this._checkReponse(res);
     } catch (err) {
       if (err.message === "jwt expired") {
-        const refreshData = await this._refreshToken(); //обновляем токен
+        const refreshData = await this.refreshToken(); //обновляем токен
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }
@@ -155,6 +155,11 @@ class Api {
     this.headers.authorization = localStorage.getItem("accessToken");
   }
 
+  getOrder(number) {
+    console.log('API getOrder(number): ', number);
+
+    return this._request(`${this.orderPath}/${number}`)
+  }
 }
 
 const api = new Api(config);

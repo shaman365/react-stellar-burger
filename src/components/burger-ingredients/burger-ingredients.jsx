@@ -5,7 +5,7 @@ import {
 import styles from "./burger-ingredients.module.css";
 import { useSelector } from "react-redux";
 import Ingredient from '../ingredient/ingredient';
-
+import { getIngredientsDetailsFromStore } from "../../utils/utils"
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
@@ -15,7 +15,7 @@ const BurgerIngredients = () => {
   const mainRef = useRef();
   const ingredientsContainer = useRef();
 
-  const data = useSelector((state) => state.ingredientsData.ingredients);
+  const data = useSelector(getIngredientsDetailsFromStore);
 
   const bunList = useMemo(
     () => data && data.filter((item) => item.type === "bun"),

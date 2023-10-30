@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
@@ -14,7 +14,7 @@ import { useForm } from "../../hooks/useForm";
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({});
+  const { values, handleChange } = useForm({password: '', token: ''});
 
   useEffect(() => {
     if (!localStorage.getItem("isResetRequested")) {

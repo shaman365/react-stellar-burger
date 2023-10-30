@@ -1,12 +1,12 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Outlet } from "react-router-dom";
 
 const AppHeader = () => {
     const location = useLocation();
 
     return (
-
+    <>
         <header className={styles.header}>
             <nav>
                 <ul className={styles.nav}>
@@ -17,7 +17,7 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={styles.nav_item_order_feed}>
-                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/orders">
+                        <NavLink className={({ isActive }) => isActive ? styles.active : styles.pending} to="/feed">
                             <ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'} />
                             <span className="text text_type_main-default">Лента заказов</span>
                         </NavLink>
@@ -34,6 +34,8 @@ const AppHeader = () => {
                 </ul>
             </nav>
         </header>
+        <Outlet/>
+    </>
     )
 }
 export default AppHeader;

@@ -1,5 +1,4 @@
 # Проект Stellar Burger 
-# Этап "Промежуточный проект. Авторизация и Роутинг"
 
 Используемые технологии
 * HTML5
@@ -7,6 +6,7 @@
 * Redux
 * Redux Toolkit
 * React Router
+* WebSocket
 
 [Ссылка](https://shaman365.github.io/react-stellar-burger/) на проект
 

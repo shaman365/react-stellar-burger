@@ -1,8 +1,14 @@
-.section {
-  position: relative;
-  width: 100%;
+.main {
   display: flex;
   justify-content: center;
+}
+
+.section {
+  display: flex;    
+  width: 1280px;
+  gap: 60px;
+
+  /* border: 1px cyan solid; */
 }
 
 .profileMenu {
@@ -13,43 +19,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  margin: 120px 90px 0 0;
+
   /* border: 1px yellow solid; */
-  min-width: 320px;
-  position: absolute;
-  top: 0px;
-  right: 530px;
 }
 
-.profileActionsContainer {
+.profileContainer {
   display: flex;
   justify-content: center;
   align-items: start;
-  min-height: 320px;
-  max-width: 480px;
-  margin-top: 120px;
   position: relative;
-}
-
-.profileFormFields {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-  gap: 24px;
-}
-
-.profileActions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.profileButtonsContainer {
-  margin-top: 24px;
-  display: flex;
-  min-width: 480px;
-  justify-content: flex-end;
 }
 
 .profileNotion {

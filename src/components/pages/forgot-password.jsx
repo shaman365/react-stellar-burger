@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link } from "react-router-dom";
 import {
   EmailInput,
@@ -13,7 +13,7 @@ import { useForm } from "../../hooks/useForm";
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({});
+  const { values, handleChange } = useForm({email: ''});
 
   const [status, setStatus] = useState(null);
 
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           type="primary"
           name={"email"}
           size="large"
-          disabled={values.email.length < 4}
+          disabled={values.email && values.email.length < 4}
         >
           Восстановить
         </Button>

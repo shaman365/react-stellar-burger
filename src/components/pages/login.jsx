@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./pages.module.css";
+import styles from "./common.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,15 +9,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { login, clearStatus } from "../../services/user";
-
 import { useForm } from "../../hooks/useForm";
+import { isEmptyObj } from "../../utils/utils";
+import { getUserDataFromStore } from "../../utils/utils";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { status } = useSelector((state) => state.user);
 
-  const { values, handleChange } = useForm({});
+  const { status } = useSelector(getUserDataFromStore);
+
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,6 +29,13 @@ export default function LoginPage() {
   useEffect(() => {
     dispatch(clearStatus());
   }, [location]);
+
+  const isButtonDisabled = () => {
+    if (isEmptyObj(values)) return true;
+    if (!values.email || !values.password) return true;
+
+    return values.password.length < 1 || values.email.length < 1
+  }
 
   return (
     <>
@@ -51,7 +60,8 @@ export default function LoginPage() {
             type="primary"
             size="large"
             error={status}
-            disabled={values.password.length < 6 || values.email.length < 1}
+            disabled={isButtonDisabled()}
+
           >
             Войти
           </Button>
