@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "./static/css/main.12b872e7.css",
-    "main.js": "./static/js/main.85787a77.js",
-    "static/js/787.438bf4e7.chunk.js": "./static/js/787.438bf4e7.chunk.js",
-    "static/media/JetBrainsMono-Bold.woff": "./static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
-    "static/media/JetBrainsMono-Regular.woff": "./static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
-    "static/media/done.svg": "./static/media/done.14bfd7b1391b32b9da65c289340542c9.svg",
-    "static/media/JetBrainsMono-Bold.woff2": "./static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
-    "static/media/JetBrainsMono-Regular.woff2": "./static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
-    "static/media/iceland.woff": "./static/media/iceland.77ad7fc2baffd9305538.woff",
-    "static/media/iceland.woff2": "./static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
-    "static/media/close.svg": "./static/media/close.c4c517b0a1656e7eaaae12765f8b91b1.svg",
-    "index.html": "./index.html",
-    "main.12b872e7.css.map": "./static/css/main.12b872e7.css.map",
-    "main.85787a77.js.map": "./static/js/main.85787a77.js.map",
-    "787.438bf4e7.chunk.js.map": "./static/js/787.438bf4e7.chunk.js.map"
+    "main.css": "/react-stellar-burger/static/css/main.1eb44d65.css",
+    "main.js": "/react-stellar-burger/static/js/main.81bd2fd0.js",
+    "static/js/787.438bf4e7.chunk.js": "/react-stellar-burger/static/js/787.438bf4e7.chunk.js",
+    "static/media/JetBrainsMono-Bold.woff": "/react-stellar-burger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
+    "static/media/JetBrainsMono-Regular.woff": "/react-stellar-burger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
+    "static/media/done.svg": "/react-stellar-burger/static/media/done.14bfd7b1391b32b9da65c289340542c9.svg",
+    "static/media/JetBrainsMono-Bold.woff2": "/react-stellar-burger/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
+    "static/media/JetBrainsMono-Regular.woff2": "/react-stellar-burger/static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
+    "static/media/iceland.woff": "/react-stellar-burger/static/media/iceland.77ad7fc2baffd9305538.woff",
+    "static/media/iceland.woff2": "/react-stellar-burger/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
+    "index.html": "/react-stellar-burger/index.html",
+    "static/media/close.svg": "/react-stellar-burger/static/media/close.c4c517b0a1656e7eaaae12765f8b91b1.svg",
+    "main.1eb44d65.css.map": "/react-stellar-burger/static/css/main.1eb44d65.css.map",
+    "main.81bd2fd0.js.map": "/react-stellar-burger/static/js/main.81bd2fd0.js.map",
+    "787.438bf4e7.chunk.js.map": "/react-stellar-burger/static/js/787.438bf4e7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.12b872e7.css",
-    "static/js/main.85787a77.js"
+    "static/css/main.1eb44d65.css",
+    "static/js/main.81bd2fd0.js"
   ]
 }
