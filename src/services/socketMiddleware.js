@@ -16,27 +16,23 @@ const socketMiddleware = (wsActions) => {
             if (type === wsStart) {
                 // объект класса WebSocket
                 socket = new WebSocket(payload);
-                // console.log('socket.wsStart: socket: ', socket)
             }
 
             if (socket) {
 
                 // функция, которая вызывается при открытии сокета
                 socket.onopen = event => {
-                    //console.log('socket.onopen: ', event)
                     dispatch(wsOpen(event));
                 };
 
                 // функция, которая вызывается при ошибке соединения
                 socket.onerror = event => {
-                    //console.log('socket.onerror: ', event)
                     dispatch(wsError(event.message))
                 };
 
                 // функция, которая вызывается при получении события от сервера
                 socket.onmessage = event => {
                     const data = JSON.parse(event.data);
-                    //console.log('socket.onmessage: ', data)
 
                     if (data.message === 'Invalid or missing token') {
                         api.refreshToken()

@@ -6,12 +6,14 @@ import { deleteIngredient, sortIngredients } from "../../services/burger"
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useSelector } from "react-redux"
 
-export default function BurgerIngredient({ingredientData}) {
+export default function BurgerIngredient({ ingredientData }) {
 
   const dispatch = useDispatch()
-  const ingredients = useSelector(state => state.burgerData.ingredients)
+
+  const getIngredients = (state) => state.burgerData.ingredients;
+  const ingredients = useSelector(getIngredients)
   const dropIndex = ingredients.findIndex(item => item.key === ingredientData.key)
-  
+
   const [, drag, preview] = useDrag(() => ({
     type: 'burgerIngredient',
     item: ingredientData,
@@ -21,19 +23,19 @@ export default function BurgerIngredient({ingredientData}) {
     accept: 'burgerIngredient',
     hover: (item) => {
       const dragIndex = ingredients.findIndex(ingredient => ingredient.key === item.key)
-      dispatch(sortIngredients({dragIndex: dragIndex, dropIndex:dropIndex}))
+      dispatch(sortIngredients({ dragIndex: dragIndex, dropIndex: dropIndex }))
     },
     drop: (item) => {
       const dragIndex = ingredients.findIndex(ingredient => ingredient.key === item.key)
-      dispatch(sortIngredients({dragIndex: dragIndex, dropIndex:dropIndex}))
+      dispatch(sortIngredients({ dragIndex: dragIndex, dropIndex: dropIndex }))
     }
   }))
-  
+
   return (
     <div ref={preview}>
       <li className={`${styles.ingredient} mr-2`} ref={drop}>
         <div ref={drag}>
-          <DragIcon type="primary"/>
+          <DragIcon type="primary" />
         </div>
         <ConstructorElement
           text={ingredientData.name}
@@ -44,7 +46,7 @@ export default function BurgerIngredient({ingredientData}) {
           }}
         />
       </li>
-    </div>    
+    </div>
   )
 }
 

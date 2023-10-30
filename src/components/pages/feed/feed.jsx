@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "./feed.module.css";
 import { Outlet, useLocation } from "react-router-dom";
@@ -8,16 +7,21 @@ import OrderCard from "../../order-card/order-card";
 
 export default function FeedPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation().pathname;
 
-  const { orders, total, totalToday } = useSelector((state) => state.feedData);
+  const feedData = (state) => state.feedData;
+
+  const { orders, total, totalToday } = useSelector(feedData);
 
   useEffect(() => {
     dispatch({
       type: "FEED_WS_CONNECTION_START",
       payload: "wss://norma.nomoreparties.space/orders/all",
-    });    
+    });
+
+    return () => {
+      dispatch({ type: "FEED_WS_CONNECTION_STOP" });
+    }
   }, []);
 
   return (
@@ -87,8 +91,8 @@ export default function FeedPage() {
             </div>
           </section>
         </>
-      )}    
-      <Outlet/>  
+      )}
+      <Outlet />
     </main>
   );
 }

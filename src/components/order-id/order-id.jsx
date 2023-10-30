@@ -10,13 +10,12 @@ import {
   isEmptyObj,
   getIngredientById,
 } from "../../utils/utils";
+import { getIngredientsDataFromStore } from "../../utils/utils";
 
 export default function OrderId() {
   const { number } = useParams();
 
-  console.log("OrderId: number: ", number)
-
-  const { ingredients } = useSelector((state) => state.ingredientsData);
+  const { ingredients } = useSelector(getIngredientsDataFromStore);
 
   const [order, setOrder] = useState({
     data: {},
@@ -24,9 +23,6 @@ export default function OrderId() {
   });
 
   useEffect(() => {
-    console.log("!!!!!!!!! OrderId useEffect")
-
-
     api.getOrder(number).then((res) => {
       setOrder({ ...order, data: res.orders[0] });
     });
@@ -47,10 +43,10 @@ export default function OrderId() {
     return order.data.status === "done"
       ? "Выполнен"
       : order.data.status === "pending"
-      ? "Готовится"
-      : order.data.status === "created"
-      ? "Создан"
-      : "n/a";
+        ? "Готовится"
+        : order.data.status === "created"
+          ? "Создан"
+          : "n/a";
   };
 
   return (
@@ -62,11 +58,9 @@ export default function OrderId() {
         {order.data.name}
       </p>
       <p
-        className={`${
-          styles.orderStatus
-        } text text_type_main-default text_color_inactive ${
-          order.data.status === "done" ? styles.statusDone : ""
-        }`}
+        className={`${styles.orderStatus
+          } text text_type_main-default text_color_inactive ${order.data.status === "done" ? styles.statusDone : ""
+          }`}
       >
         {orderStatus()}
       </p>

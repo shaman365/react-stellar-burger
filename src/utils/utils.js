@@ -34,3 +34,7 @@ export function getValidDataList(array) {
 export function isEmptyObj(obj) {
     return Object.keys(obj).length === 0;
 }
+
+export const getIngredientsDataFromStore = (state) => state.ingredientsData;
+export const getIngredientsDetailsFromStore = (state) => state.ingredientsData.ingredients;
+export const getUserDataFromStore = (state) => state.user;

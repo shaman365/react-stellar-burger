@@ -11,13 +11,15 @@ import {
 import { login, clearStatus } from "../../services/user";
 import { useForm } from "../../hooks/useForm";
 import { isEmptyObj } from "../../utils/utils";
+import { getUserDataFromStore } from "../../utils/utils";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { status } = useSelector((state) => state.user);
 
-  const { values, handleChange } = useForm({email: '', password: ''});
+  const { status } = useSelector(getUserDataFromStore);
+
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +30,7 @@ export default function LoginPage() {
     dispatch(clearStatus());
   }, [location]);
 
-  const isButtonDisabled = () => {    
+  const isButtonDisabled = () => {
     if (isEmptyObj(values)) return true;
     if (!values.email || !values.password) return true;
 
@@ -59,7 +61,7 @@ export default function LoginPage() {
             size="large"
             error={status}
             disabled={isButtonDisabled()}
-            
+
           >
             Войти
           </Button>

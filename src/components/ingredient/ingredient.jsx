@@ -20,7 +20,9 @@ const Ingredient = ({ ingredientData }) => {
 
     const location = useLocation();
 
-    const burgerData = useSelector(state => state.burgerData)
+    const getBurgerData = (state) => state.burgerData;
+
+    const burgerData = useSelector(getBurgerData);
 
     let ingredientCount = 0
 

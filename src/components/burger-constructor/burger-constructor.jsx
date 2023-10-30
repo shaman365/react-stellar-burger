@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addBun, addIngredient, clearIngredients } from "../../services/burger";
+import { addBun, addIngredient } from "../../services/burger";
 import { getOrderData } from "../../services/order";
 import { useDrop } from "react-dnd"
 import BurgerIngredient from '../burger-ingredient/burger-ingredient'
@@ -13,7 +13,9 @@ const BurgerConstructor = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const burgerData = useSelector(state => state.burgerData)
+  const getBurgerData = state => state.burgerData;
+
+  const burgerData = useSelector(getBurgerData)
 
   const [, drop] = useDrop(() => ({
     accept: 'ingredient',

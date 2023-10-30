@@ -53,14 +53,6 @@ function App() {
     navigate(-1);
   };
 
-  if (location.pathname !== "/feed") {
-    dispatch({ type: "FEED_WS_CONNECTION_STOP" });
-  }
-
-  if (location.pathname !== "/profile/orders") {
-    dispatch({ type: "HISTORY_ORDERS_WS_CONNECTION_STOP" });
-  }
-
   return (
     <>
       <AppHeader />

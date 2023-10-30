@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '../../utils/utils';
-
+import { getIngredientsDetailsFromStore } from "../../utils/utils"
 
 const IngredientDetails = ({ isFullScreen }) => {
 
   const { ingredientId } = useParams();
-  const data = useSelector((state) => state.ingredientsData.ingredients);
+  const data = useSelector(getIngredientsDetailsFromStore);
 
   const ingredient = getIngredientById(data, ingredientId);
 

@@ -3,13 +3,11 @@ import { DndProvider } from "react-dnd";
 import styles from "./home.module.css";
 import BurgerIngredients from "../../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../burger-constructor/burger-constructor";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { getIngredientsDataFromStore } from "../../../utils/utils";
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-  const modalData = useSelector((state) => state.modalData);
-
-  const { loading, error } = useSelector((state) => state.ingredientsData);
+  const { loading, error } = useSelector(getIngredientsDataFromStore);
 
   return (
     <>
