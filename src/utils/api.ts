@@ -1,22 +1,55 @@
-const config = {
-  baseUrl: 'https://norma.nomoreparties.space/api/',
-  ingredientsPath: 'ingredients',
-  orderPath: 'orders',
-  registerPath: 'auth/register',
-  loginPath: 'auth/login',
-  logoutPath: 'auth/logout',
-  refreshTokenPath: 'auth/token',
-  forgotPath: 'password-reset',
-  resetPath: 'password-reset/reset',
-  userPath: 'auth/user',  
+import type {
+  THeader,
+  TConfiguration,
+  TOption,
+  TIngredient,
+  TUser,
+  TError,
+  TReponseToken,
+} from "../types/types";
+
+const config: TConfiguration = {
+  baseUrl: "https://norma.nomoreparties.space/api/",
+  ingredientsPath: "ingredients",
+  orderPath: "orders",
+  registerPath: "auth/register",
+  loginPath: "auth/login",
+  logoutPath: "auth/logout",
+  refreshTokenPath: "auth/token",
+  forgotPath: "password-reset",
+  resetPath: "password-reset/reset",
+  userPath: "auth/user",
   headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-  }
+    "Content-Type": "application/json;charset=utf-8",
+  },
 };
 
 class Api {
-  constructor({ baseUrl, ingredientsPath, orderPath, registerPath, loginPath, logoutPath,
-    refreshTokenPath, forgotPath, resetPath, userPath, headers }) {
+  baseUrl: string;
+  ingredientsPath: string;
+  orderPath: string;
+  registerPath: string;
+  loginPath: string;
+  logoutPath: string;
+  refreshTokenPath: string;
+  resetPath: string;
+  forgotPath: string;
+  userPath: string;
+  headers: THeader;
+
+  constructor({
+    baseUrl,
+    ingredientsPath,
+    orderPath,
+    registerPath,
+    loginPath,
+    logoutPath,
+    refreshTokenPath,
+    forgotPath,
+    resetPath,
+    userPath,
+    headers,
+  }: TConfiguration) {
     this.baseUrl = baseUrl;
     this.ingredientsPath = this.baseUrl + ingredientsPath;
     this.orderPath = this.baseUrl + orderPath;
@@ -30,19 +63,21 @@ class Api {
     this.headers = headers;
   }
 
-  _request(url, options) {
-    return fetch(url, options).then(this._getResponseData)
+  _request(url: string, options?: TOption) {
+    return fetch(url, options).then(this._getResponseData);
   }
 
-  _getResponseData(res) {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
+  _getResponseData<T>(response: Response): Promise<T> {
+    if (!response.ok) {
+      return Promise.reject(`Ошибка: ${response.status}`) as Promise<T>;
     }
-    return res.json();
+    return response.json() as Promise<T>;
   }
 
-  _checkReponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  _checkReponse = <T>(response: Response): Promise<T> => {
+    return response.ok
+      ? (response.json() as Promise<T>)
+      : (response.json().then((err) => Promise.reject(err)) as Promise<T>);
   };
 
   refreshToken = () => {
@@ -54,14 +89,14 @@ class Api {
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
-    }).then(this._checkReponse);
+    }).then(this._checkReponse<TReponseToken>);
   };
 
-  _fetchWithRefresh = async (url, options) => {
+  _fetchWithRefresh = async (url: string, options: TOption) => {
     try {
       const res = await fetch(url, options);
       return await this._checkReponse(res);
-    } catch (err) {
+    } catch (err: any) {
       if (err.message === "jwt expired") {
         const refreshData = await this.refreshToken(); //обновляем токен
         if (!refreshData.success) {
@@ -79,86 +114,84 @@ class Api {
   };
 
   getIngredients() {
-    return this._request(`${this.ingredientsPath}`)
+    return this._request(`${this.ingredientsPath}`);
   }
 
-  setOrder(ingredients) {
+  setOrder(ingredients: TIngredient[]) {
     this.addAuthHeader();
     return this._request(`${this.orderPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         ingredients: ingredients,
       }),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
-  register(userData) {
+  register(userData: TUser) {
     return this._request(`${this.registerPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(userData),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
-  login(userData) {
+  login(userData: TUser) {
     return this._request(`${this.loginPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(userData),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
-  logout(token) {
+  logout(token: string) {
     return this._request(`${this.logoutPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ token: token }),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
-  forgot(emailData) {
+  forgot(emailData: { email: string }) {
     return this._request(`${this.forgotPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(emailData),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
-  reset(passData) {
+  reset(passData: { password: string; token: string }) {
     return this._request(`${this.resetPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(passData),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
   getUser() {
     this.addAuthHeader();
 
     return this._fetchWithRefresh(`${this.userPath}`, {
-      method: 'GET',
-      headers: this.headers
-    })
+      method: "GET",
+      headers: this.headers,
+    });
   }
 
-  updateUser(userData) {
+  updateUser(userData: TUser) {
     this.addAuthHeader();
     return this._fetchWithRefresh(`${this.userPath}`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify(userData),
-      headers: this.headers
-    })
+      headers: this.headers,
+    });
   }
 
   addAuthHeader() {
     this.headers.authorization = localStorage.getItem("accessToken");
   }
 
-  getOrder(number) {
-    console.log('API getOrder(number): ', number);
-
-    return this._request(`${this.orderPath}/${number}`)
+  getOrder(number: number) {
+    return this._request(`${this.orderPath}/${number}`);
   }
 }
 
