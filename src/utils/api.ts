@@ -1,5 +1,5 @@
 import type {
-  TOrder,
+  TOrderRequest,
   TConfiguration,
   TIngredient,
   TUser,
@@ -123,10 +123,6 @@ class Api {
   }
 
   setOrder(ingredients: string[]) {
-
-    console.log('````````````` setOrder: ', ingredients);
-    
-
     this.addAuthHeader();
     return this._request<TOrderData>(`${this.orderPath}`, {
       method: "POST",
@@ -202,8 +198,8 @@ class Api {
     }
   }
 
-  getOrder(number: number) {
-    return this._request<TOrder>(`${this.orderPath}/${number}`);
+  getOrder(number: string) {
+    return this._request<TOrderRequest>(`${this.orderPath}/${number}`);
   }
 }
 

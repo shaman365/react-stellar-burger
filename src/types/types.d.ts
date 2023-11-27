@@ -47,7 +47,7 @@ export type TIngredient = {
 };
 
 export type TOrder = {
-  ingredients: Array<string>,
+  ingredients: string[],
   _id: string,
   status: string,
   number: number,
@@ -133,7 +133,15 @@ export type TModalProps = {
   onClose: () => void  
 };
 
+export type TOrderProps = {
+  order: TOrder
+};
 
+
+export type TOrderRequest = {
+  success: boolean,
+  orders: TOrder[]
+}
 // export type TError = {
 //   success: boolean;
 //   message?: string;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./order-id.module.css";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../types/hooks";
 import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import {
@@ -11,40 +11,42 @@ import {
   getIngredientById,
 } from "../../utils/utils";
 import { getIngredientsDataFromStore } from "../../utils/utils";
+import { TIngredient, TOrder } from "../../types/types";
 
 export default function OrderId() {
   const { number } = useParams();
 
-  const { ingredients } = useSelector(getIngredientsDataFromStore);
+  const { ingredients }: { ingredients: TIngredient[] } = useAppSelector(getIngredientsDataFromStore);
 
-  const [order, setOrder] = useState({
-    data: {},
+  const [order, setOrder] = useState<{ data: TOrder | null, error: boolean }>({
+    data: null,
     error: false,
   });
 
   useEffect(() => {
-    api.getOrder(number).then((res) => {
-      setOrder({ ...order, data: res.orders[0] });
-    });
+    if (number)
+      api.getOrder(number).then((res) => {
+        setOrder({ ...order, data: res.orders[0] });
+      });
   }, []);
 
-  let ingredientList, orderPrice;
+  let ingredientList: TIngredient[] = [], orderPrice: number = 0;
 
-  if (!isEmptyObj(order.data)) {
+  if (order.data) {
     ingredientList = order.data.ingredients.map((item) =>
       getIngredientById(ingredients, item)
     );
     orderPrice = ingredientList.reduce((sum, item) => {
-      return sum + item.price;
+      return sum + (item ? item.price : 0);
     }, 0);
   }
 
   const orderStatus = () => {
-    return order.data.status === "done"
+    return order.data?.status === "done"
       ? "Выполнен"
-      : order.data.status === "pending"
+      : order.data?.status === "pending"
         ? "Готовится"
-        : order.data.status === "created"
+        : order.data?.status === "created"
           ? "Создан"
           : "n/a";
   };
@@ -52,14 +54,14 @@ export default function OrderId() {
   return (
     <section className={styles.section}>
       <p className={`${styles.orderNumber} text text_type_digits-default`}>
-        {`#${order.data.number}`}
+        {`#${order.data?.number}`}
       </p>
       <p className={`${styles.orderTitle} text text_type_main-medium`}>
-        {order.data.name}
+        {order.data?.name}
       </p>
       <p
         className={`${styles.orderStatus
-          } text text_type_main-default text_color_inactive ${order.data.status === "done" ? styles.statusDone : ""
+          } text text_type_main-default text_color_inactive ${order.data?.status === "done" ? styles.statusDone : ""
           }`}
       >
         {orderStatus()}
@@ -79,16 +81,16 @@ export default function OrderId() {
                 <li className={styles.ingredient} key={index}>
                   <div
                     className={styles.ingredientImage}
-                    style={{ backgroundImage: `url(${item.image_mobile})` }}
+                    style={{ backgroundImage: `url(${item?.image_mobile})` }}
                   ></div>
                   <p
                     className={`${styles.ingredientTitle} text text_type_main-default`}
                   >
-                    {item.name}
+                    {item?.name}
                   </p>
                   <div className={styles.ingredientPrice}>
                     <p className="text text_type_digits-default">
-                      {`${count}x${item.price}`}
+                      {`${count}x${item?.price}`}
                     </p>
                     <CurrencyIcon type="primary" />
                   </div>
@@ -102,16 +104,16 @@ export default function OrderId() {
               <li className={styles.ingredient} key={index}>
                 <div
                   className={styles.ingredientImage}
-                  style={{ backgroundImage: `url(${item.image_mobile})` }}
+                  style={{ backgroundImage: `url(${item?.image_mobile})` }}
                 ></div>
                 <p
                   className={`${styles.ingredientTitle} text text_type_main-default`}
                 >
-                  {item.name}
+                  {item?.name}
                 </p>
                 <div className={styles.ingredientPrice}>
                   <p className="text text_type_digits-default">
-                    {`${count}x${item.price}`}
+                    {`${count}x${item?.price}`}
                   </p>
                   <CurrencyIcon type="primary" />
                 </div>
@@ -121,6 +123,7 @@ export default function OrderId() {
       </ul>
       <div className={styles.summary}>
         {
+          order.data && 
           <FormattedDate
             date={new Date(order.data.createdAt)}
             className="text text_type_main-default text_color_inactive"

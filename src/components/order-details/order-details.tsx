@@ -1,11 +1,12 @@
 import styles from "./order-details.module.css";
 import commonStyles from "../pages/common.module.css";
 import orderAccept from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../types/hooks";
+import { RootState, TOrderData } from "../../types/types";
 
 const OrderDetails = () => {
 
-  const { orderData } = useSelector((state) => state);
+  const { orderData } : {orderData: TOrderData}= useAppSelector((state: RootState) => state);
   const status = orderData?.status || "unknown";
   const orderNumber = orderData.order.number;
 

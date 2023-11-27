@@ -10,7 +10,7 @@ const IngredientDetails = ({ isFullScreen }: TIngredientDetailsProps) => {
   const { ingredientId } = useParams();
   const data = useSelector(getIngredientsDetailsFromStore) as TIngredient[];
 
-  const ingredient: TIngredient | null | undefined = getIngredientById(data, ingredientId);
+  const ingredient: TIngredient = getIngredientById(data, ingredientId);
 
   return (
     <section className={isFullScreen ? styles.section : ''}>

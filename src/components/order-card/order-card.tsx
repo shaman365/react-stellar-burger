@@ -9,21 +9,22 @@ import { useSelector } from "react-redux";
 import { getIngredientById } from "../../utils/utils";
 import { Link } from "react-router-dom";
 import { getIngredientsDataFromStore } from "../../utils/utils";
+import { TIngredient, TOrderProps } from "../../types/types"
 
-export default function OrderCard({ order }) {
+export default function OrderCard({ order }: TOrderProps) {
   const location = useLocation();
 
-  const { ingredients } = useSelector(getIngredientsDataFromStore);
+  const { ingredients } : {ingredients: TIngredient[]} = useSelector(getIngredientsDataFromStore);
 
   const ingredientList = useMemo(() => order.ingredients.map((item) =>
-    getIngredientById(ingredients, item), [order.ingredients])
+    getIngredientById(ingredients, item)), [order.ingredients]
   );
 
   const orderPrice = ingredientList.reduce((sum, item) => {
-    return sum + item.price;
+    return sum + (item ? item.price : 0);
   }, 0);
 
-  let url;
+  let url: string = '';
 
   if (location.pathname === "/feed") {
     url = `/feed/${order.number}`;
@@ -67,7 +68,7 @@ export default function OrderCard({ order }) {
                     style={{ zIndex: zIndex }}
                   >
                     <img
-                      src={item.image_mobile}
+                      src={item?.image_mobile}
                       width="115"
                       height="54"
                       alt="Изображение ингредиента"
@@ -81,7 +82,7 @@ export default function OrderCard({ order }) {
               <>
                 <li className={styles.ingredient} style={{ zIndex: 1 }}>
                   <img
-                    src={`${ingredientList[5].image_mobile}`}
+                    src={`${ingredientList[5]?.image_mobile}`}
                     style={{ opacity: 0.7 }}
                     width="115"
                     height="54"
