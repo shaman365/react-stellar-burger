@@ -4,6 +4,7 @@ import type {
   TIngredient,
   TUser,
   TReponseToken,
+  TOrderData
 } from "../types/types";
 
 const config: TConfiguration = {
@@ -121,9 +122,13 @@ class Api {
     return this._request<TIngredient[]>(`${this.ingredientsPath}`);
   }
 
-  setOrder(ingredients: TIngredient[]) {
+  setOrder(ingredients: string[]) {
+
+    console.log('````````````` setOrder: ', ingredients);
+    
+
     this.addAuthHeader();
-    return this._request(`${this.orderPath}`, {
+    return this._request<TOrderData>(`${this.orderPath}`, {
       method: "POST",
       body: JSON.stringify({
         ingredients: ingredients,

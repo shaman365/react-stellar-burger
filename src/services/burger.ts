@@ -1,15 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from '@reduxjs/toolkit'
+import type { TBurgerData, TIngredient, TSortIngredientsPayload } from '../types/types'
+
+
+const initialState: TBurgerData = {
+    bun: [],
+    ingredients: []
+};
 
 const burgerSlice = createSlice({
     name: 'burgerData',
-    initialState: {
-        bun: [],
-        ingredients: []
-    },
+    initialState,
     reducers: {
         addIngredient: {
-            reducer: (state, action) => {
+            reducer: (state, action: PayloadAction<TIngredient>) => {
                 return {
                     ...state,
                     ingredients: [
@@ -17,7 +21,7 @@ const burgerSlice = createSlice({
                         action.payload
                     ]
                 }
-            }, prepare: (item) => {
+            }, prepare: (item: TIngredient) => {
                 return {
                     payload: {
                         ...item,
@@ -27,7 +31,7 @@ const burgerSlice = createSlice({
             }
         },
 
-        deleteIngredient: (state, action) => {
+        deleteIngredient: (state, action: PayloadAction<TIngredient>) => {
             return {
                 ...state,
                 ingredients: state.ingredients.filter(item => item.key !== action.payload.key),
@@ -35,13 +39,13 @@ const burgerSlice = createSlice({
         },
 
         addBun: {
-            reducer: (state, action) => {
+            reducer: (state, action: PayloadAction<TIngredient>) => {
                 return !state.bun.length ? {
                     ...state,
                     bun: [
                         action.payload
                     ]
-                } : state.bun._id === action.payload._id ? {
+                } : '_id' in state.bun && state.bun._id === action.payload._id ? {
                     ...state
                 } : {
                     ...state,
@@ -49,7 +53,7 @@ const burgerSlice = createSlice({
                         action.payload
                     ]
                 }
-            }, prepare: (item) => {
+            }, prepare: (item: TIngredient) => {
                 return {
                     payload: {
                         ...item,
@@ -58,7 +62,7 @@ const burgerSlice = createSlice({
                 }
             }
         },
-        sortIngredients: (state, action) => {
+        sortIngredients: (state, action: PayloadAction<TSortIngredientsPayload>) => {
             const ingredients = [...state.ingredients]
             ingredients.splice(
                 action.payload.dropIndex,
@@ -70,7 +74,7 @@ const burgerSlice = createSlice({
                 ingredients: ingredients,
             }
         },
-        clearIngredients: (state, action) => {
+        clearIngredients: (state, action: PayloadAction<{}>) => {
             return {
                 ...state,
                 ingredients: [],

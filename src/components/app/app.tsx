@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../pages/home/home";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../types/hooks";
 import { useEffect } from "react";
 import { checkUserAuth } from "../../services/user";
 import LoginPage from "../pages/login";
@@ -21,7 +21,7 @@ import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { loadIngredients } from "../../services/ingredients";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function App() {
   const PATH_PROFILE_ORDER_NUMBER =
     PATH_PROFILE + "/" + PATH_ORDER_LIST + "/:number";
 
-  const background = location.state && location.state.background;
+  const background: null | Location = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(loadIngredients());
