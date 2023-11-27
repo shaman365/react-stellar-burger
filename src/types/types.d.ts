@@ -134,7 +134,11 @@ export type TIngredientProps = {
 export type TBurgerData = {
   bun: IngredientType[],
   ingredients: IngredientType[]
-}
+};
+
+export type TIngredientDetailsProps = {
+  isFullScreen: boolean
+};
 
 // export type TError = {
 //   success: boolean;

@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '../../utils/utils';
 import { getIngredientsDetailsFromStore } from "../../utils/utils"
+import { TBurgerData, TIngredientDetailsProps, TIngredient } from "../../types/types"
 
-const IngredientDetails = ({ isFullScreen }) => {
+const IngredientDetails = ({ isFullScreen }: TIngredientDetailsProps) => {
 
   const { ingredientId } = useParams();
-  const data = useSelector(getIngredientsDetailsFromStore);
+  const data = useSelector(getIngredientsDetailsFromStore) as TIngredient[];
 
-  const ingredient = getIngredientById(data, ingredientId);
+  const ingredient: TIngredient | null | undefined = getIngredientById(data, ingredientId);
 
   return (
     <section className={isFullScreen ? styles.section : ''}>

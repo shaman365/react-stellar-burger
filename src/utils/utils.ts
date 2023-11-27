@@ -1,7 +1,7 @@
 import { number } from "prop-types";
 import type { RootState, TIngredient, TOrder } from "../types/types";
 
-export function getIngredientById(array: TIngredient[], id: string) {
+export function getIngredientById(array: TIngredient[], id?: string) {
   return array.length > 0 ? array.find((item) => item._id === id) : null;
 }
 
