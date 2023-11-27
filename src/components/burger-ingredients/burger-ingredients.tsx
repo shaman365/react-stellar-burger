@@ -3,38 +3,41 @@ import {
   Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { useSelector } from "react-redux";
 import Ingredient from '../ingredient/ingredient';
 import { getIngredientsDetailsFromStore } from "../../utils/utils"
+import { useAppSelector } from "../../types/hooks";
+import { TIngredient } from "../../types/types";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
 
-  const bunRef = useRef();
-  const sauceRef = useRef();
-  const mainRef = useRef();
-  const ingredientsContainer = useRef();
+  const bunRef = useRef<HTMLParagraphElement>(null);
+  const sauceRef = useRef<HTMLParagraphElement>(null);
+  const mainRef = useRef<HTMLParagraphElement>(null);
+  const ingredientsContainer = useRef<HTMLDivElement>(null);
 
-  const data = useSelector(getIngredientsDetailsFromStore);
+  const data = useAppSelector(getIngredientsDetailsFromStore);
 
   const bunList = useMemo(
-    () => data && data.filter((item) => item.type === "bun"),
+    () => data && data.filter((item: TIngredient) => item.type === "bun"),
     [data]
-  );
+  ) as TIngredient[];
+
   const mainList = useMemo(
-    () => data && data.filter((item) => item.type === "main"),
+    () => data && data.filter((item: TIngredient) => item.type === "main"),
     [data]
-  );
+  ) as TIngredient[];
+
   const sauceList = useMemo(
-    () => data && data.filter((item) => item.type === "sauce"),
+    () => data && data.filter((item: TIngredient) => item.type === "sauce"),
     [data]
-  );
+  ) as TIngredient[];
 
   const handleScroll = () => {
-    const containerScroll = ingredientsContainer.current.getBoundingClientRect().top
-    const bunScroll = bunRef.current.getBoundingClientRect().top - containerScroll
-    const sauceScroll = sauceRef.current.getBoundingClientRect().top - containerScroll
-    const mainScroll = mainRef.current.getBoundingClientRect().top - containerScroll
+    const containerScroll = ingredientsContainer.current ? ingredientsContainer.current.getBoundingClientRect().top : 0; 
+    const bunScroll = bunRef.current ? bunRef.current.getBoundingClientRect().top - containerScroll : 0;
+    const sauceScroll = sauceRef.current ? sauceRef.current.getBoundingClientRect().top - containerScroll : 0;
+    const mainScroll = mainRef.current ? mainRef.current.getBoundingClientRect().top - containerScroll : 0;
     const maxOffset = -30
     if (bunScroll <= 0 && bunScroll > maxOffset) {
       setCurrent("bun");
@@ -57,7 +60,7 @@ const BurgerIngredients = () => {
           active={current === "bun"}
           onClick={() => {
             setCurrent("bun");
-            bunRef.current.scrollIntoView({
+            bunRef.current?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });
@@ -70,7 +73,7 @@ const BurgerIngredients = () => {
           active={current === "sauce"}
           onClick={() => {
             setCurrent("sauce");
-            sauceRef.current.scrollIntoView({
+            sauceRef.current?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });
@@ -83,7 +86,7 @@ const BurgerIngredients = () => {
           active={current === "main"}
           onClick={() => {
             setCurrent("main");
-            mainRef.current.scrollIntoView({
+            mainRef.current?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });

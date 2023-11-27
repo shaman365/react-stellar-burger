@@ -1,5 +1,5 @@
 import { number } from "prop-types";
-import type { TIngredient, TOrder } from "../types/types";
+import type { RootState, TIngredient, TOrder } from "../types/types";
 
 export function getIngredientById(array: TIngredient[], id: string) {
   return array.length > 0 ? array.find((item) => item._id === id) : null;
@@ -48,8 +48,8 @@ export function isEmptyObj(obj: {}): boolean {
   return Object.keys(obj).length === 0;
 }
 
-export const getIngredientsDataFromStore = (state: any) =>
+export const getIngredientsDataFromStore = (state: RootState) =>
   state.ingredientsData;
-export const getIngredientsDetailsFromStore = (state: any) =>
+export const getIngredientsDetailsFromStore = (state: RootState) =>
   state.ingredientsData.ingredients;
-export const getUserDataFromStore = (state: any) => state.user;
+export const getUserDataFromStore = (state: RootState) => state.user;

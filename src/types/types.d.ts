@@ -127,6 +127,15 @@ export type TSortIngredientsPayload = {
   dropIndex: number
 };
 
+export type TIngredientProps = {
+  ingredientData: TIngredient
+};
+
+export type TBurgerData = {
+  bun: IngredientType[],
+  ingredients: IngredientType[]
+}
+
 // export type TError = {
 //   success: boolean;
 //   message?: string;

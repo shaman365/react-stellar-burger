@@ -1,17 +1,16 @@
 import styles from "./burger-ingredient.module.css"
-import { useDispatch } from "react-redux"
 import { useDrag, useDrop } from "react-dnd"
-import { ingredientPropType } from "../../utils/prop-types"
 import { deleteIngredient, sortIngredients } from "../../services/burger"
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useSelector } from "react-redux"
+import { RootState, TIngredient, TIngredientProps } from "../../types/types"
+import { useAppDispatch, useAppSelector } from "../../types/hooks"
 
-export default function BurgerIngredient({ ingredientData }) {
+export default function BurgerIngredient({ ingredientData }: TIngredientProps) {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const getIngredients = (state) => state.burgerData.ingredients;
-  const ingredients = useSelector(getIngredients)
+  const getIngredients = (state: RootState) => state.burgerData.ingredients;
+  const ingredients: TIngredient[] = useAppSelector(getIngredients);
   const dropIndex = ingredients.findIndex(item => item.key === ingredientData.key)
 
   const [, drag, preview] = useDrag(() => ({
@@ -21,11 +20,11 @@ export default function BurgerIngredient({ ingredientData }) {
 
   const [, drop] = useDrop(() => ({
     accept: 'burgerIngredient',
-    hover: (item) => {
+    hover: (item: TIngredient) => {
       const dragIndex = ingredients.findIndex(ingredient => ingredient.key === item.key)
       dispatch(sortIngredients({ dragIndex: dragIndex, dropIndex: dropIndex }))
     },
-    drop: (item) => {
+    drop: (item: TIngredient) => {
       const dragIndex = ingredients.findIndex(ingredient => ingredient.key === item.key)
       dispatch(sortIngredients({ dragIndex: dragIndex, dropIndex: dropIndex }))
     }
@@ -49,7 +48,3 @@ export default function BurgerIngredient({ ingredientData }) {
     </div>
   )
 }
-
-BurgerIngredient.propTypes = {
-  ingredientData: ingredientPropType
-} 

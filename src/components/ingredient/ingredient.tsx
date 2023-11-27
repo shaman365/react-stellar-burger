@@ -1,11 +1,11 @@
 import styles from './ingredient.module.css'
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useSelector } from "react-redux"
 import { useDrag } from "react-dnd"
-import { ingredientPropType } from "../../utils/prop-types"
 import { NavLink, useLocation } from "react-router-dom"
+import { RootState, TIngredient, TIngredientProps, TBurgerData } from "../../types/types"
+import { useAppSelector } from '../../types/hooks'
 
-const getIngredientsCount = (ingredient, array) => {
+const getIngredientsCount = (ingredient: TIngredient, array: TIngredient[]) => {
     const count = array.reduce((total, item) => {
         if (item._id === ingredient._id) {
             return total += 1
@@ -16,13 +16,13 @@ const getIngredientsCount = (ingredient, array) => {
     return count
 }
 
-const Ingredient = ({ ingredientData }) => {
+const Ingredient = ({ ingredientData }: TIngredientProps) => {
 
     const location = useLocation();
 
-    const getBurgerData = (state) => state.burgerData;
+    const getBurgerData = (state: RootState) => state.burgerData as TBurgerData;
 
-    const burgerData = useSelector(getBurgerData);
+    const burgerData = useAppSelector(getBurgerData);
 
     let ingredientCount = 0
 
@@ -61,10 +61,6 @@ const Ingredient = ({ ingredientData }) => {
             }
         </li>
     )
-}
-
-Ingredient.propTypes = {
-    ingredientData: ingredientPropType
 }
 
 export default Ingredient
