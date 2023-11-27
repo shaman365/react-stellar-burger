@@ -1,17 +1,18 @@
 import { useEffect } from "react";
 import styles from "./feed.module.css";
 import { Outlet, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../types/hooks";
 
 import OrderCard from "../../order-card/order-card";
+import { RootState, TWSData } from "../../../types/types";
 
 export default function FeedPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation().pathname;
 
-  const feedData = (state) => state.feedData;
+  const feedData = (state: RootState) => state.feedData;
 
-  const { orders, total, totalToday } = useSelector(feedData);
+  const { orders, total, totalToday } = useAppSelector(feedData) as TWSData;
 
   useEffect(() => {
     dispatch({

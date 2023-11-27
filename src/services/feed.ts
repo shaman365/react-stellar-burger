@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { TWSData, TWSPayload } from '../types/types'
 
 export const feedWebSocketStart = 'FEED_WS_CONNECTION_START'
 export const feedWebSocketStop = 'FEED_WS_CONNECTION_STOP'
 
-const initialState = {
+const initialState: TWSData = {
     success: false,
     orders: [],
     total: null,
@@ -15,7 +16,7 @@ const initialState = {
     name: 'feedData',
     initialState,
     reducers: {
-      setFeed: (state, action) => {
+      setFeed: (state, action: PayloadAction<TWSPayload>) => {
         return {
           ...state,
           success: action.payload.success,
@@ -24,7 +25,7 @@ const initialState = {
           totalToday: action.payload.totalToday
         }
       },
-      setFeedSocketConnectionStatus: (state, action) => {
+      setFeedSocketConnectionStatus: (state, action: PayloadAction<string>) => {
         return {
           ...state,
           socketConnectionStatus: action.payload

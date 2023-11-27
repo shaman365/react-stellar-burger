@@ -1,7 +1,7 @@
 import styles from "./404.module.css";
 import { Link } from "react-router-dom";
 
-export default function FeedPage() {
+export default function Page404() {
   return (
     <main className={styles.main}>
       <section className={styles.section}>

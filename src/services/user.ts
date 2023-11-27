@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction, ThunkAction, Action } from '@reduxjs/toolkit'
 import api from '../utils/api'
+import type { TUser, TUserData, TUserLogoutRequest, TAsyncThunkConfig, TUserUpdateRequest, RootState } from "../types/types"
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     "user/login",
     async (userData) => {
         const res = await api.login(userData);
@@ -11,7 +12,7 @@ export const login = createAsyncThunk(
     }
 );
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     "user/register",
     async (userData) => {
         const res = await api.register(userData);
@@ -21,18 +22,21 @@ export const register = createAsyncThunk(
     }
 );
 
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<TUserLogoutRequest | undefined, string, TAsyncThunkConfig>(
     "user/logout",
     async () => {
         const token = localStorage.getItem("refreshToken");
-        const res = await api.logout(token);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        return res.user;
+        if (token) {
+            const res = await api.logout(token);
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            return res;
+        }
+        return undefined
     }
 );
 
-export const getUser = createAsyncThunk(
+export const getUser = createAsyncThunk<TUser, void, TAsyncThunkConfig>(
     "user/getUser",
     async () => {
         const res = await api.getUser();
@@ -40,20 +44,20 @@ export const getUser = createAsyncThunk(
     }
 );
 
-export const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk<TUser, TUserUpdateRequest, TAsyncThunkConfig>(
     "user/updateUser",
     async (user) => {
         const res = await api.updateUser(user);
-        return res.user
+        return res
     }
 );
 
-export const checkUserAuth = () => {
+export const checkUserAuth = (): ThunkAction<void, RootState, unknown, Action> => {
     return (dispatch) => {
         if (localStorage.getItem("accessToken")) {
             dispatch(getUser())
                 .then(res => {
-                    dispatch(setUser(res.payload));
+                    dispatch(setUser(res.payload as TUser));
                 })
                 .catch(() => {
                     localStorage.removeItem("accessToken");
@@ -68,22 +72,24 @@ export const checkUserAuth = () => {
     };
 };
 
+const initialState: TUserData = {
+    user: null,
+    isAuthChecked: false,
+    status: ''
+};
+
 export const userSlice = createSlice({
     name: 'userData',
-    initialState: {
-        user: null,
-        isAuthChecked: false,
-        status: null
-    },
+    initialState,
     reducers: {
-        setAuthChecked: (state, action) => {
+        setAuthChecked: (state, action: PayloadAction<boolean>) => {
             state.isAuthChecked = action.payload;
         },
-        setUser: (state, action) => {
+        setUser: (state, action: PayloadAction<TUser | null>) => {
             state.user = action.payload;
         },
         clearStatus: (state) => {
-            state.status = null;
+            state.status = '';
         }
     },
     extraReducers: (builder) => {
@@ -97,7 +103,7 @@ export const userSlice = createSlice({
                 state.status = 'fulfilled';
             })
             .addCase(login.rejected, (state, action) => {
-                state.user = action.payload;
+                // state.user = action.payload;
                 state.isAuthChecked = true;
                 state.status = 'rejected';
             })
@@ -113,7 +119,7 @@ export const userSlice = createSlice({
                 state.status = 'fulfilled';
             })
 
-
+            
             .addCase(updateUser.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -133,12 +139,10 @@ export const userSlice = createSlice({
                 state.status = 'fulfilled';
             })
             .addCase(register.rejected, (state, action) => {
-                state.user = action.payload;
+                // state.user = action.payload;
                 state.isAuthChecked = true;
                 state.status = 'rejected';
             })
-
-
     }
 })
 

@@ -4,7 +4,7 @@ import {
     Input,
     Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../../types/hooks";
 import commonStyles from "../../common.module.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
@@ -13,7 +13,7 @@ import styles from "./profile-form.module.css";
 import { getUserDataFromStore } from "../../../../utils/utils";
 
 export default function ProfileForm() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     const [form, setValue] = useState({ email: "", password: "", name: "" });
@@ -22,12 +22,12 @@ export default function ProfileForm() {
 
     const [fieldDisabled, setDisabled] = useState({ name: "name", disabled: true, icon: "EditIcon" });
 
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
+    const onChange = (e: React.FormEvent<HTMLInputElement> ) => {
+        setValue({ ...form, [e.currentTarget.name]: e.currentTarget.value });
         setVisible(true);
     };
 
-    const { status, user } = useSelector(getUserDataFromStore);
+    const { status, user } = useAppSelector(getUserDataFromStore);
 
     const inputRef = React.createRef();
 

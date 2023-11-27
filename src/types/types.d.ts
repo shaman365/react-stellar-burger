@@ -1,9 +1,6 @@
 import { ThunkAction, TypedUseSelectorHook } from "redux-thunk";
 import { Action, ActionCreator } from "redux";
 import { store } from "./services/store";
-import { TAuthActions } from "./services/actions/auth";
-import { TIngredientsActions } from "./services/actions/ingredients";
-import { TWSActions } from "./services/actions/wsActions";
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
@@ -73,17 +70,45 @@ export type TOrderData = {
   status: string;
 };
 
-
 export type TBurgerData = {
   bun: TIngredient[],
   ingredients: TIngredient[]
 };
 
 export type TUser = {
-  name?: string,
-  email: string,
-  password: string
+  login: string,
+  name: string,
+  email: string,  
 };
+
+export type TUserData = {
+  user: TUser | null,
+  isAuthChecked: boolean,
+  status: string,
+};
+
+export type TUserLoginRequest = {
+  success: boolean,
+  user: TUser,
+  accessToken: string,
+  refreshToken: string
+};
+
+export type TUserLogoutRequest = {
+  success: boolean,
+  message: string
+};
+
+export type TUserInfoRequest = {
+  success: boolean,
+  user: TUser
+};
+
+export type TUserUpdateRequest = {
+  name: string, 
+  login: string, 
+  password: string
+}
 
 export type TMessage = {
   success: boolean,
@@ -137,11 +162,27 @@ export type TOrderProps = {
   order: TOrder
 };
 
-
 export type TOrderRequest = {
   success: boolean,
   orders: TOrder[]
+};
+
+export type TWSData = {
+  success: boolean,
+  orders: TOrder[],
+  total: number | null,
+  totalToday: number | null,
+  socketConnectionStatus: string | null
 }
+
+export type TWSPayload = {
+  success: boolean,
+  orders: TOrder[],
+  total: number,
+  totalToday: number,
+}
+
+
 // export type TError = {
 //   success: boolean;
 //   message?: string;

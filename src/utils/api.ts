@@ -4,7 +4,12 @@ import type {
   TIngredient,
   TUser,
   TReponseToken,
-  TOrderData
+  TOrderData,
+  TUserLoginRequest,
+  TUserLogoutRequest,
+  TUserData,
+  TUserInfoRequest,
+  TUserUpdateRequest
 } from "../types/types";
 
 const config: TConfiguration = {
@@ -133,16 +138,16 @@ class Api {
     });
   }
 
-  register(userData: TUser) {
-    return this._request(`${this.registerPath}`, {
+  register(userData: TUserData) {
+    return this._request<TUserLoginRequest>(`${this.registerPath}`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: this.headers,
     });
   }
 
-  login(userData: TUser) {
-    return this._request<TReponseToken>(`${this.loginPath}`, {
+  login(userData: TUserData) {
+    return this._request<TUserLoginRequest>(`${this.loginPath}`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: this.headers,
@@ -150,7 +155,7 @@ class Api {
   }
 
   logout(token: string) {
-    return this._request(`${this.logoutPath}`, {
+    return this._request<TUserLogoutRequest>(`${this.logoutPath}`, {
       method: "POST",
       body: JSON.stringify({ token: token }),
       headers: this.headers,
@@ -175,13 +180,13 @@ class Api {
 
   getUser() {
     this.addAuthHeader();
-    return this._fetchWithRefresh<TUser>(`${this.userPath}`, {
+    return this._fetchWithRefresh<TUserInfoRequest>(`${this.userPath}`, {
       method: "GET",
       headers: this.headers,
     });
   }
 
-  updateUser(userData: TUser) {
+  updateUser(userData: TUserUpdateRequest) {
     this.addAuthHeader();
     return this._fetchWithRefresh<TUser>(`${this.userPath}`, {
       method: "PATCH",
