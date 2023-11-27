@@ -1,10 +1,8 @@
 import type {
-  THeader,
+  TOrder,
   TConfiguration,
-  TOption,
   TIngredient,
   TUser,
-  TError,
   TReponseToken,
 } from "../types/types";
 
@@ -35,7 +33,7 @@ class Api {
   resetPath: string;
   forgotPath: string;
   userPath: string;
-  headers: THeader;
+  headers: HeadersInit;
 
   constructor({
     baseUrl,
@@ -63,8 +61,8 @@ class Api {
     this.headers = headers;
   }
 
-  _request(url: string, options?: TOption) {
-    return fetch(url, options).then(this._getResponseData);
+  _request<T>(url: RequestInfo, options?: RequestInit) {
+    return fetch(url, options).then(this._getResponseData<T>);
   }
 
   _getResponseData<T>(response: Response): Promise<T> {
@@ -92,10 +90,13 @@ class Api {
     }).then(this._checkReponse<TReponseToken>);
   };
 
-  _fetchWithRefresh = async (url: string, options: TOption) => {
+  _fetchWithRefresh = async <T>(
+    url: RequestInfo,
+    options: RequestInit
+  ): Promise<T> => {
     try {
       const res = await fetch(url, options);
-      return await this._checkReponse(res);
+      return await this._checkReponse<T>(res);
     } catch (err: any) {
       if (err.message === "jwt expired") {
         const refreshData = await this.refreshToken(); //обновляем токен
@@ -104,7 +105,10 @@ class Api {
         }
         localStorage.setItem("refreshToken", refreshData.refreshToken);
         localStorage.setItem("accessToken", refreshData.accessToken);
-        options.headers.authorization = refreshData.accessToken;
+
+        const requestHeaders: HeadersInit = new Headers();
+        requestHeaders.set("Authorization", refreshData.accessToken);
+
         const res = await fetch(url, options); //повторяем запрос
         return await this._checkReponse(res);
       } else {
@@ -114,7 +118,7 @@ class Api {
   };
 
   getIngredients() {
-    return this._request(`${this.ingredientsPath}`);
+    return this._request<TIngredient[]>(`${this.ingredientsPath}`);
   }
 
   setOrder(ingredients: TIngredient[]) {
@@ -137,7 +141,7 @@ class Api {
   }
 
   login(userData: TUser) {
-    return this._request(`${this.loginPath}`, {
+    return this._request<TReponseToken>(`${this.loginPath}`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: this.headers,
@@ -170,8 +174,7 @@ class Api {
 
   getUser() {
     this.addAuthHeader();
-
-    return this._fetchWithRefresh(`${this.userPath}`, {
+    return this._fetchWithRefresh<TUser>(`${this.userPath}`, {
       method: "GET",
       headers: this.headers,
     });
@@ -179,7 +182,7 @@ class Api {
 
   updateUser(userData: TUser) {
     this.addAuthHeader();
-    return this._fetchWithRefresh(`${this.userPath}`, {
+    return this._fetchWithRefresh<TUser>(`${this.userPath}`, {
       method: "PATCH",
       body: JSON.stringify(userData),
       headers: this.headers,
@@ -187,11 +190,15 @@ class Api {
   }
 
   addAuthHeader() {
-    this.headers.authorization = localStorage.getItem("accessToken");
+    const requestHeaders: HeadersInit = new Headers();
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      requestHeaders.set("Authorization", accessToken);
+    }
   }
 
   getOrder(number: number) {
-    return this._request(`${this.orderPath}/${number}`);
+    return this._request<TOrder>(`${this.orderPath}/${number}`);
   }
 }
 

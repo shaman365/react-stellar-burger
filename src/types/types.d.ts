@@ -5,14 +5,8 @@ import { TAuthActions } from "./services/actions/auth";
 import { TIngredientsActions } from "./services/actions/ingredients";
 import { TWSActions } from "./services/actions/wsActions";
 
-// type AppActions = TAuthActions | TIngredientsActions | TWSActions;
-
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-
-// export type AppThunk<ReturnType = void> = ActionCreator<
-//   ThunkAction<ReturnType, Action, RootState, TApplicationActions>
-// >;
 
 export type THeader = {
   [key: string]: string | null;
@@ -29,13 +23,7 @@ export type TConfiguration = {
   forgotPath: string;
   resetPath: string;
   userPath: string;
-  headers: THeader;
-};
-
-export type TOption = {
-  method: string;
-  body: any;
-  headers: THeader;
+  headers: HeadersInit;
 };
 
 export type TReponseToken = {
@@ -116,7 +104,7 @@ export type TMessage = {
   totalToday: number;
 };
 
-export type TError = {
-  success: boolean;
-  message?: string;
-};
+// export type TError = {
+//   success: boolean;
+//   message?: string;
+// };
