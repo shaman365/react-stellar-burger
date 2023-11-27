@@ -85,18 +85,6 @@ export type TUser = {
   password: string
 };
 
-// export type TUserRequest = {
-//   name: string,
-//   email: string,
-//   token: string,
-// };
-
-// export type TProps = {
-//   onDropHandler: (item: TIngredient) => void;
-// };
-
-//export type TIngredientWithProductId = TIngredient & { productId: string };
-
 export type TMessage = {
   success: boolean,
   orders: [
@@ -139,6 +127,12 @@ export type TBurgerData = {
 export type TIngredientDetailsProps = {
   isFullScreen: boolean
 };
+
+export type TModalProps = {
+  children?: ReactElement,
+  onClose: () => void  
+};
+
 
 // export type TError = {
 //   success: boolean;

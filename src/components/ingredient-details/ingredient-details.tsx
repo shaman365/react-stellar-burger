@@ -1,10 +1,9 @@
 import styles from './ingredient-details.module.css'
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '../../utils/utils';
 import { getIngredientsDetailsFromStore } from "../../utils/utils"
-import { TBurgerData, TIngredientDetailsProps, TIngredient } from "../../types/types"
+import { TIngredientDetailsProps, TIngredient } from "../../types/types"
 
 const IngredientDetails = ({ isFullScreen }: TIngredientDetailsProps) => {
 
@@ -65,9 +64,5 @@ const IngredientDetails = ({ isFullScreen }: TIngredientDetailsProps) => {
     </section>
   )
 }
-
-IngredientDetails.propTypes = {
-  isFullScreen: PropTypes.bool,
-};
 
 export default IngredientDetails
