@@ -22,12 +22,12 @@ export const register = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     }
 );
 
-export const logout = createAsyncThunk<TUserLogoutRequest | undefined, string, TAsyncThunkConfig>(
+export const logout = createAsyncThunk<TUserLogoutRequest | undefined, void, TAsyncThunkConfig>(
     "user/logout",
     async () => {
         const token = localStorage.getItem("refreshToken");
         if (token) {
-            const res = await api.logout(token);
+            const res = await api.logout();
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             return res;

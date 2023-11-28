@@ -12,7 +12,7 @@ export default function ProfilePage() {
   const location = useLocation().pathname;
   const [active, setActive] = useState(false);
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.FormEvent) => {
     setActive(true);
     dispatch(logout());
     navigate("/");

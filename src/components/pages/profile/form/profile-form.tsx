@@ -23,7 +23,7 @@ export default function ProfileForm() {
 
     const [fieldDisabled, setDisabled] = useState({ name: "name", disabled: true, icon: "EditIcon" });
 
-    const onChange = (e: React.FormEvent<HTMLInputElement> ) => {
+    const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setValue({ ...form, [e.currentTarget.name]: e.currentTarget.value });
         setVisible(true);
     };

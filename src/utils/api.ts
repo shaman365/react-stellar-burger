@@ -153,10 +153,16 @@ class Api {
     });
   }
 
-  logout(token: string) {
+  logout() {
+
+    const refreshToken = localStorage.getItem("refreshToken") ?? "Error";
+
+    console.log("logout: refreshToken", refreshToken);
+    
+
     return this._request<TUserLogoutRequest>(`${this.logoutPath}`, {
       method: "POST",
-      body: JSON.stringify({ token: token }),
+      body: JSON.stringify({ token: refreshToken }),
       headers: this.headers,
     });
   }
