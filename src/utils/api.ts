@@ -9,7 +9,7 @@ import type {
   TUserLogoutRequest,
   TUserData,
   TUserInfoRequest,
-  TUserUpdateRequest
+  TUserUpdateData,
 } from "../types/types";
 
 const config: TConfiguration = {
@@ -128,13 +128,12 @@ class Api {
   }
 
   setOrder(ingredients: string[]) {
-    this.addAuthHeader();
     return this._request<TOrderData>(`${this.orderPath}`, {
       method: "POST",
       body: JSON.stringify({
         ingredients: ingredients,
       }),
-      headers: this.headers,
+      headers: this._getAuthHeaders(),
     });
   }
 
@@ -179,28 +178,27 @@ class Api {
   }
 
   getUser() {
-    this.addAuthHeader();
     return this._fetchWithRefresh<TUserInfoRequest>(`${this.userPath}`, {
       method: "GET",
-      headers: this.headers,
+      headers: this._getAuthHeaders(),
     });
   }
 
-  updateUser(userData: TUserUpdateRequest) {
-    this.addAuthHeader();
+  updateUser(userData: TUserUpdateData) {
     return this._fetchWithRefresh<TUser>(`${this.userPath}`, {
       method: "PATCH",
       body: JSON.stringify(userData),
-      headers: this.headers,
+      headers: this._getAuthHeaders(),
     });
   }
 
-  addAuthHeader() {
-    const requestHeaders: HeadersInit = new Headers();
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      requestHeaders.set("Authorization", accessToken);
-    }
+  _getAuthHeaders() {
+    const accessToken = localStorage.getItem("accessToken") ?? "Error";
+    const authorizationRequestHeaders: HeadersInit = new Headers();
+    authorizationRequestHeaders.append("Content-Type", "application/json");
+    authorizationRequestHeaders.append("authorization", accessToken);
+        
+    return authorizationRequestHeaders;
   }
 
   getOrder(number: string) {

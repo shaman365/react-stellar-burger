@@ -6,17 +6,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../../../../types/hooks";
 import commonStyles from "../../common.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { getUser, updateUser, clearStatus } from "../../../../services/user";
 import styles from "./profile-form.module.css";
 import { getUserDataFromStore } from "../../../../utils/utils";
+import { TUserUpdateData } from "../../../../types/types"
 
 export default function ProfileForm() {
     const dispatch = useAppDispatch();
     const location = useLocation();
 
-    const [form, setValue] = useState({ email: "", password: "", name: "" });
+    const [form, setValue] = useState<TUserUpdateData>({ email: "", password: "", name: "" });
 
     const [isVisible, setVisible] = useState(false);
 
@@ -29,7 +30,7 @@ export default function ProfileForm() {
 
     const { status, user } = useAppSelector(getUserDataFromStore);
 
-    const inputRef = React.createRef();
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         dispatch(clearStatus());
@@ -37,25 +38,25 @@ export default function ProfileForm() {
         setValue({ ...form, email: user.email, name: user.name });
     }, [location]);
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         dispatch(updateUser(form));
         setVisible(false);
     }
 
-    const handleCancel = (e) => {
+    const handleCancel = (e: React.FormEvent) => {
         dispatch(clearStatus());
         dispatch(getUser());
         setValue({ ...form, email: user.email, name: user.name, password: "" });
         setVisible(false);
     }
 
-    const onIconClick = (e) => {
+    const onIconClick = (e: React.FormEvent) => {
         setDisabled({ ...fieldDisabled, disabled: false });
         setTimeout(() => inputRef.current?.focus(), 0);
     }
 
-    const onBlur = (e) => {
+    const onBlur = () => {
         setDisabled({ ...fieldDisabled, disabled: true });
     }
 

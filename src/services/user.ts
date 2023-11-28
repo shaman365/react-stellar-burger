@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction, ThunkAction, Action } from '@reduxjs/toolkit'
 import api from '../utils/api'
-import type { TUser, TUserData, TUserLogoutRequest, TAsyncThunkConfig, TUserUpdateRequest, RootState } from "../types/types"
+import type { TUser, TUserData, TUserLogoutRequest, TAsyncThunkConfig, TUserUpdateData, RootState } from "../types/types"
 
 export const login = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     "user/login",
@@ -44,7 +44,7 @@ export const getUser = createAsyncThunk<TUser, void, TAsyncThunkConfig>(
     }
 );
 
-export const updateUser = createAsyncThunk<TUser, TUserUpdateRequest, TAsyncThunkConfig>(
+export const updateUser = createAsyncThunk<TUser, TUserUpdateData, TAsyncThunkConfig>(
     "user/updateUser",
     async (user) => {
         const res = await api.updateUser(user);

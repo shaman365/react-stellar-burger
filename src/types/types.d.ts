@@ -104,30 +104,12 @@ export type TUserInfoRequest = {
   user: TUser
 };
 
-export type TUserUpdateRequest = {
+export type TUserUpdateData = {
   name: string, 
-  login: string, 
-  password: string
-}
-
-export type TMessage = {
-  success: boolean,
-  orders: [
-    {
-      ingredients: string[],
-      _id: string,
-      name: string,
-      status: string,
-      number: number,
-      createdAt: Date,
-      updatedAt: Date,
-      price: number,
-      __v: number,
-    }
-  ];
-  total: number,
-  totalToday: number,
+  password: string,
+  email: string
 };
+
 
 export type TAsyncThunkConfig = {
   state?: RootState,
