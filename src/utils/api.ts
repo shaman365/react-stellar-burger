@@ -1,15 +1,16 @@
 import type {
   TOrderRequest,
   TConfiguration,
-  TIngredient,
   TUser,
   TReponseToken,
   TOrderData,
-  TUserLoginRequest,
-  TUserLogoutRequest,
-  TUserData,
-  TUserInfoRequest,
+  TUserLoginResponse,
+  TUserCommonResponse,  
+  TUserGetInfoResponse,
   TUserUpdateData,
+  TUserLoginData,
+  TUserForgotData,
+  TIngredientsDataResponse
 } from "../types/types";
 
 const config: TConfiguration = {
@@ -124,7 +125,7 @@ class Api {
   };
 
   getIngredients() {
-    return this._request<TIngredient[]>(`${this.ingredientsPath}`);
+    return this._request<TIngredientsDataResponse>(`${this.ingredientsPath}`);
   }
 
   setOrder(ingredients: string[]) {
@@ -137,16 +138,16 @@ class Api {
     });
   }
 
-  register(userData: TUserData) {
-    return this._request<TUserLoginRequest>(`${this.registerPath}`, {
+  register(userData: TUserUpdateData) {
+    return this._request<TUserLoginResponse>(`${this.registerPath}`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: this.headers,
     });
   }
 
-  login(userData: TUserData) {
-    return this._request<TUserLoginRequest>(`${this.loginPath}`, {
+  login(userData: TUserLoginData) {
+    return this._request<TUserLoginResponse>(`${this.loginPath}`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: this.headers,
@@ -154,21 +155,17 @@ class Api {
   }
 
   logout() {
+    const refreshToken = localStorage.getItem("refreshToken") ?? "Error"; 
 
-    const refreshToken = localStorage.getItem("refreshToken") ?? "Error";
-
-    console.log("logout: refreshToken", refreshToken);
-    
-
-    return this._request<TUserLogoutRequest>(`${this.logoutPath}`, {
+    return this._request<TUserCommonResponse>(`${this.logoutPath}`, {
       method: "POST",
       body: JSON.stringify({ token: refreshToken }),
       headers: this.headers,
     });
   }
 
-  forgot(emailData: { email: string }) {
-    return this._request(`${this.forgotPath}`, {
+  forgot(emailData: TUserForgotData) {
+    return this._request<TUserCommonResponse>(`${this.forgotPath}`, {
       method: "POST",
       body: JSON.stringify(emailData),
       headers: this.headers,
@@ -176,7 +173,7 @@ class Api {
   }
 
   reset(passData: { password: string; token: string }) {
-    return this._request(`${this.resetPath}`, {
+    return this._request<TUserCommonResponse>(`${this.resetPath}`, {
       method: "POST",
       body: JSON.stringify(passData),
       headers: this.headers,
@@ -184,7 +181,7 @@ class Api {
   }
 
   getUser() {
-    return this._fetchWithRefresh<TUserInfoRequest>(`${this.userPath}`, {
+    return this._fetchWithRefresh<TUserGetInfoResponse>(`${this.userPath}`, {
       method: "GET",
       headers: this._getAuthHeaders(),
     });

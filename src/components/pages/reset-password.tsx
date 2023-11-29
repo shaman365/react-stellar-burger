@@ -9,12 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import api from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
+import type { TUserResetData } from "../../types/types"
 
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({password: '', token: ''});
+  const { values, handleChange } = useForm<TUserResetData>({password: '', token: ''});
 
   useEffect(() => {
     if (!localStorage.getItem("isResetRequested")) {
@@ -23,14 +24,12 @@ export default function ResetPasswordPage() {
   }, []);
 
 
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading")
     api.reset(values).then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
       localStorage.removeItem("isResetRequested");
       navigate("/login");
       e.preventDefault();

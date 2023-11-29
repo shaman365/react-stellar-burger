@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction, ThunkAction, Action } from '@reduxjs/toolkit'
 import api from '../utils/api'
-import type { TUser, TUserData, TUserLogoutRequest, TAsyncThunkConfig, TUserUpdateData, RootState } from "../types/types"
+import type { TUser, TUserData, TUserLoginData, TUserCommonResponse, TAsyncThunkConfig, TUserUpdateData, RootState } from "../types/types"
 
-export const login = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
+export const login = createAsyncThunk<TUser, TUserLoginData, TAsyncThunkConfig>(
     "user/login",
     async (userData) => {
         const res = await api.login(userData);
@@ -12,7 +12,7 @@ export const login = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     }
 );
 
-export const register = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
+export const register = createAsyncThunk<TUser, TUserUpdateData, TAsyncThunkConfig>(
     "user/register",
     async (userData) => {
         const res = await api.register(userData);
@@ -22,7 +22,7 @@ export const register = createAsyncThunk<TUser, TUserData, TAsyncThunkConfig>(
     }
 );
 
-export const logout = createAsyncThunk<TUserLogoutRequest | undefined, void, TAsyncThunkConfig>(
+export const logout = createAsyncThunk<TUserCommonResponse | undefined, void, TAsyncThunkConfig>(
     "user/logout",
     async () => {
         const token = localStorage.getItem("refreshToken");

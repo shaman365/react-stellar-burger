@@ -13,6 +13,7 @@ import {
 import { register, clearStatus } from "../../services/user";
 import { useForm } from "../../hooks/useForm";
 import { getUserDataFromStore } from "../../utils/utils";
+import { TUserUpdateData } from "../../types/types"
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
@@ -22,11 +23,11 @@ export default function RegistrationPage() {
     dispatch(clearStatus());
   }, [location]);
 
-  const { values, handleChange } = useForm({ name: '', email: '', password: '' });
+  const { values, handleChange } = useForm<TUserUpdateData>({ name: '', email: '', password: '' });
 
   const { status } = useSelector(getUserDataFromStore);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     dispatch(register(values));
   }

@@ -8,24 +8,23 @@ import {
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
+import { TUserForgotData } from "../../types/types"; 
 
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
 
-  const { values, handleChange } = useForm({email: ''});
+  const { values, handleChange } = useForm<TUserForgotData>({email: ''});
 
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading")
     api
       .forgot(values)
-      .then((res) => {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        localStorage.setItem("isResetRequested", true);
+      .then((res) => {       
+        localStorage.setItem("isResetRequested", "true");
         navigate("/reset-password");
         e.preventDefault();
       })
@@ -50,7 +49,7 @@ export default function ForgotPasswordPage() {
           type="primary"
           name={"email"}
           size="large"
-          disabled={values.email && values.email.length < 4}
+          disabled={values.email && values.email.length < 4 ? true : false}
         >
           Восстановить
         </Button>

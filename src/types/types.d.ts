@@ -1,6 +1,7 @@
 import { ThunkAction, TypedUseSelectorHook } from "redux-thunk";
 import { Action, ActionCreator } from "redux";
 import { store } from "./services/store";
+import { ActionCreatorWithOptionalPayload, ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
@@ -87,19 +88,20 @@ export type TUserData = {
   status: string,
 };
 
-export type TUserLoginRequest = {
+
+export type TUserLoginResponse = {
   success: boolean,
   user: TUser,
   accessToken: string,
   refreshToken: string
 };
 
-export type TUserLogoutRequest = {
+export type TUserCommonResponse = {
   success: boolean,
   message: string
 };
 
-export type TUserInfoRequest = {
+export type TUserGetInfoResponse = {
   success: boolean,
   user: TUser
 };
@@ -110,6 +112,19 @@ export type TUserUpdateData = {
   email: string
 };
 
+export type TUserForgotData = {
+  email: string
+};
+
+export type TUserLoginData = {
+  email: string,
+  password: string
+};
+
+export type TUserResetData = {
+  password: string,
+  token: string
+};
 
 export type TAsyncThunkConfig = {
   state?: RootState,
@@ -135,6 +150,17 @@ export type TIngredientDetailsProps = {
   isFullScreen: boolean
 };
 
+export type TIngredientsDataResponse = {
+  success: boolean,
+  data: TIngredient[]
+};
+
+export type TIngredientsDataType = {
+  ingredients: TIngredient[] | null,
+  loading: boolean,
+  error: string | null
+};
+
 export type TModalProps = {
   children?: ReactElement,
   onClose: () => void  
@@ -155,17 +181,25 @@ export type TWSData = {
   total: number | null,
   totalToday: number | null,
   socketConnectionStatus: string | null
-}
+};
 
 export type TWSPayload = {
   success: boolean,
   orders: TOrder[],
   total: number,
   totalToday: number,
+};
+
+export type TProtectedRouteProps = {
+  onlyUnAuth?: boolean, 
+  component: JSX.Element
+};
+
+export type TWSConfig = {
+  wsStart: string,
+  wsStop: string,
+  wsOpen: ActionCreatorWithPayload<string>,
+  wsMessage: ActionCreatorWithPayload<TWSData>,
+  wsClose: ActionCreatorWithPayload<string>,
+  wsError: ActionCreatorWithPayload<string>,
 }
-
-
-// export type TError = {
-//   success: boolean;
-//   message?: string;
-// };

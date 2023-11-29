@@ -16,7 +16,7 @@ const initialState: TWSData = {
     name: 'feedData',
     initialState,
     reducers: {
-      setFeed: (state, action: PayloadAction<TWSPayload>) => {
+      setFeed: (state, action: PayloadAction<TWSData>) => {
         return {
           ...state,
           success: action.payload.success,

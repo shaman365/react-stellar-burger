@@ -1,16 +1,17 @@
 import api from "../utils/api"
 import { getValidDataList } from "../utils/utils"
+import { TWSConfig, RootState } from "../types/types"
+import { Middleware } from "redux";
 
-const socketMiddleware = (wsActions) => {
+const socketMiddleware = (wsActions: TWSConfig): Middleware<{}, RootState> => {
     return store => {
-        let socket = null;
+        let socket: WebSocket | null = null;
         let isConnected = false;
-        let timerInstance = null;
 
         const { wsStart, wsOpen, wsClose, wsError, wsMessage } = wsActions;
 
         return next => action => {
-            const { dispatch, getState } = store;
+            const { dispatch } = store;
             const { type, payload } = action;
 
             if (type === wsStart) {
@@ -22,12 +23,12 @@ const socketMiddleware = (wsActions) => {
 
                 // функция, которая вызывается при открытии сокета
                 socket.onopen = event => {
-                    dispatch(wsOpen(event));
+                    dispatch(wsOpen(event.type));
                 };
 
                 // функция, которая вызывается при ошибке соединения
                 socket.onerror = event => {
-                    dispatch(wsError(event.message))
+                    dispatch(wsError("Ошибка"))
                 };
 
                 // функция, которая вызывается при получении события от сервера
@@ -41,9 +42,10 @@ const socketMiddleware = (wsActions) => {
                                 localStorage.setItem("accessToken", res.accessToken);
                             })
                             .then(res => {
+                                const accessToken = localStorage.getItem('accessToken')
                                 dispatch({
                                     type: 'HISTORY_ORDERS_WS_CONNECTION_START',
-                                    payload: `wss://norma.nomoreparties.space/orders?token=${localStorage.getItem('accessToken').split('Bearer ')[1]}`
+                                    payload: `wss://norma.nomoreparties.space/orders?token=${accessToken ? accessToken.split('Bearer ')[1] : ''}`
                                 })
                             })
                             .catch(err => {
@@ -61,8 +63,8 @@ const socketMiddleware = (wsActions) => {
                 socket.onclose = event => {
 
                     if (isConnected) {
-                        timerInstance = setTimeout(() => {
-                            dispatch(wsStart);
+                        window.setTimeout(() => {
+                            dispatch({type: wsStart});
                         }, 3000)
                     }
 

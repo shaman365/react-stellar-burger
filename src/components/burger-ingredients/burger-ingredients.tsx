@@ -34,7 +34,7 @@ const BurgerIngredients = () => {
   ) as TIngredient[];
 
   const handleScroll = () => {
-    const containerScroll = ingredientsContainer.current ? ingredientsContainer.current.getBoundingClientRect().top : 0; 
+    const containerScroll = ingredientsContainer.current ? ingredientsContainer.current.getBoundingClientRect().top : 0;
     const bunScroll = bunRef.current ? bunRef.current.getBoundingClientRect().top - containerScroll : 0;
     const sauceScroll = sauceRef.current ? sauceRef.current.getBoundingClientRect().top - containerScroll : 0;
     const mainScroll = mainRef.current ? mainRef.current.getBoundingClientRect().top - containerScroll : 0;
@@ -102,7 +102,7 @@ const BurgerIngredients = () => {
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
           {
-            bunList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+            bunList?.map(item => (<Ingredient ingredientData={item} key={item._id} />))
           }
         </ul>
         <p className="text text_type_main-medium mb-6" ref={sauceRef}>
@@ -110,7 +110,7 @@ const BurgerIngredients = () => {
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
           {
-            sauceList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+            sauceList?.map(item => (<Ingredient ingredientData={item} key={item._id} />))
           }
         </ul>
         <p className="text text_type_main-medium mb-6" ref={mainRef}>
@@ -118,7 +118,7 @@ const BurgerIngredients = () => {
         </p>
         <ul className={`${styles.ingredients} ml-4`}>
           {
-            mainList.map(item => (<Ingredient ingredientData={item} key={item._id} />))
+            mainList?.map(item => (<Ingredient ingredientData={item} key={item._id} />))
           }
         </ul>
       </div>

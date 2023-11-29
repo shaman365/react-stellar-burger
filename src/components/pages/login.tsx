@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./common.module.css";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../types/hooks";
 import {
   EmailInput,
   PasswordInput,
@@ -12,16 +12,17 @@ import { login, clearStatus } from "../../services/user";
 import { useForm } from "../../hooks/useForm";
 import { isEmptyObj } from "../../utils/utils";
 import { getUserDataFromStore } from "../../utils/utils";
+import { TUserLoginData, TUserData } from "../../types/types"
 
 export default function LoginPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const { status } = useSelector(getUserDataFromStore);
+  const { status } = useAppSelector(getUserDataFromStore) as TUserData;
 
-  const { values, handleChange } = useForm({ email: '', password: '' });
+  const { values, handleChange } = useForm<TUserLoginData>({ email: '', password: '' });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(login(values));
   }
@@ -59,7 +60,6 @@ export default function LoginPage() {
             htmlType="submit"
             type="primary"
             size="large"
-            error={status}
             disabled={isButtonDisabled()}
 
           >
