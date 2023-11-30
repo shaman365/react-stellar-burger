@@ -65,7 +65,7 @@ const BurgerConstructor = () => {
         }
         <ul className={`${styles.ingredients} custom-scroll`}>
           {
-            ingredientList.map((item: any) => (<BurgerIngredient ingredientData={item} key={item.key} />))
+            ingredientList.map((item: TIngredient) => (<BurgerIngredient ingredientData={item} key={item.key} />))
           }
         </ul>
         {

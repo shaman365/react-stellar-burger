@@ -1,5 +1,5 @@
 import styles from './ingredient-details.module.css'
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../types/hooks';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '../../utils/utils';
 import { getIngredientsDetailsFromStore } from "../../utils/utils"
@@ -8,7 +8,7 @@ import { TIngredientDetailsProps, TIngredient } from "../../types/types"
 const IngredientDetails = ({ isFullScreen }: TIngredientDetailsProps) => {
 
   const { ingredientId } = useParams();
-  const data = useSelector(getIngredientsDetailsFromStore) as TIngredient[];
+  const data = useAppSelector(getIngredientsDetailsFromStore) as TIngredient[];
 
   const ingredient: TIngredient = getIngredientById(data, ingredientId);
 

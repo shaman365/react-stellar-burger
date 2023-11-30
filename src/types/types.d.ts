@@ -1,4 +1,3 @@
-import { ThunkAction, TypedUseSelectorHook } from "redux-thunk";
 import { Action, ActionCreator } from "redux";
 import { store } from "./services/store";
 import { ActionCreatorWithOptionalPayload, ActionCreatorWithPayload } from "@reduxjs/toolkit";

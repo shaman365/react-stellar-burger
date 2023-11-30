@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 
 import styles from "./profile.module.css";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../../types/hooks";
 import { useState } from "react";
 import { logout } from "../../../services/user";
 
 export default function ProfilePage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const [active, setActive] = useState(false);

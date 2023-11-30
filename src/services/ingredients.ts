@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import api from "../utils/api"
 import { TIngredient, TIngredientsDataType, TAsyncThunkConfig } from "../types/types"
 
@@ -27,12 +27,12 @@ export const ingredientsSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(loadIngredients.rejected, (state, action: any) => {
+            .addCase(loadIngredients.rejected, (state) => {
                 state.loading = false;
-                state.error = action.payload;
+                state.error = "Failed to load";
                 
             })
-            .addCase(loadIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
+            .addCase(loadIngredients.fulfilled, (state, action) => {
                 state.loading = false;
                 state.ingredients = action.payload;
             })

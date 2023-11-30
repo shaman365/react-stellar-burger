@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../types/hooks";
 import styles from "./common.module.css";
 import { Link } from "react-router-dom";
 import {
@@ -16,7 +16,7 @@ import { getUserDataFromStore } from "../../utils/utils";
 import { TUserUpdateData } from "../../types/types"
 
 export default function RegistrationPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function RegistrationPage() {
 
   const { values, handleChange } = useForm<TUserUpdateData>({ name: '', email: '', password: '' });
 
-  const { status } = useSelector(getUserDataFromStore);
+  const { status } = useAppSelector(getUserDataFromStore);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

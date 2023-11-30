@@ -97,10 +97,7 @@ class Api {
     }).then(this._checkReponse<TReponseToken>);
   };
 
-  _fetchWithRefresh = async <T>(
-    url: RequestInfo,
-    options: RequestInit
-  ): Promise<T> => {
+  _fetchWithRefresh = async <T>(url: RequestInfo,options: RequestInit): Promise<T> => {
     try {
       const res = await fetch(url, options);
       return await this._checkReponse<T>(res);
@@ -112,9 +109,6 @@ class Api {
         }
         localStorage.setItem("refreshToken", refreshData.refreshToken);
         localStorage.setItem("accessToken", refreshData.accessToken);
-
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.set("Authorization", refreshData.accessToken);
 
         const res = await fetch(url, options); //повторяем запрос
         return await this._checkReponse(res);

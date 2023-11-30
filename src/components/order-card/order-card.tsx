@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-card.module.css";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../types/hooks";
 import { getIngredientById } from "../../utils/utils";
 import { Link } from "react-router-dom";
 import { getIngredientsDataFromStore } from "../../utils/utils";
@@ -14,10 +14,10 @@ import { TIngredient, TOrderProps } from "../../types/types"
 export default function OrderCard({ order }: TOrderProps) {
   const location = useLocation();
 
-  const { ingredients } : {ingredients: TIngredient[]} = useSelector(getIngredientsDataFromStore);
+  const { ingredients } : {ingredients: TIngredient[]} = useAppSelector(getIngredientsDataFromStore);
 
   const ingredientList = useMemo(() => order.ingredients.map((item) =>
-    getIngredientById(ingredients, item)), [order.ingredients]
+    getIngredientById(ingredients, item)), [order.ingredients, ingredients]
   );
 
   const orderPrice = ingredientList.reduce((sum, item) => {
